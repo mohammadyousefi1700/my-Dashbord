@@ -1,9 +1,9 @@
 import Layout from "components/layout";
+import React from "react";
 
 function Dashboard() {
   return (
-    // <Layout>{/* <div className="">شسیشسیشسیتنشسایتشسیانشسیا</div> */}</Layout>
-    <Layout></Layout>
+    <Layout>{<React.Suspense fallback={"loading..."}></React.Suspense>}</Layout>
   );
 }
 

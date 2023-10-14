@@ -1,8 +1,10 @@
 import React, { ReactNode } from "react";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
-
-function Layout({ children }: any) {
+type Props = {
+  children?: ReactNode | JSX.Element;
+};
+function Layout({ children }: Props) {
   return (
     <div className="overflow-x-hidden min-h-screen  bg-[#f5f5f7]  pr-[45px]">
       <Navbar />

@@ -1,15 +1,20 @@
 import { Helmet } from "react-helmet";
 import { RouteType } from "./type";
-import Dashboard from "pages/dashbord";
+import { lazy, useEffect } from "react";
+import { HelmetProvider } from "react-helmet-async";
+
+const Dashboard = lazy(() => import("../dashbord/index"));
+
+const handleTitle = (children: string) => {
+  return (document.title = children);
+};
 
 export const Root: RouteType[] = [
   {
     path: "/",
     element: (
       <>
-        <Helmet>
-          <title>داشبور پروژه</title>
-        </Helmet>
+        {handleTitle("داشبورد")}
         <Dashboard />
       </>
     ),
