@@ -9,6 +9,7 @@ export type RouteType = {
 export type LayoutConfigProps = {
   title?: string;
   navbarProps?: NavbarProps;
+
   children?: ReactNode;
 };
 export type NavbarProps = { logo?: ReactNode; leftContent?: ReactNode };

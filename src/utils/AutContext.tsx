@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }: Props) => {
           password: res.password as string,
         });
         setError(false);
-        navigate("/");
       } catch (err) {
         if (err) setError(false);
       }

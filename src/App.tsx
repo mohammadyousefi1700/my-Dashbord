@@ -16,11 +16,18 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
+              {/* {Root.map((item) => (
+                <>
+                  <Route element={<PrivateRoute />}>
+                    <Route {...item} />
+                  </Route>
+                </>
+              ))} */}
               <Route element={<PrivateRoute />}>
-                {Root.map((item, key) => (
-                  <Route key={key} {...item} />
-                ))}
-                {/* <Route path="/" element={<Dashboard />} /> */}
+                {/* {Root.map((item, key) => ( */}
+                {/* <Route key={key} {...item} /> */}
+                {/* ))  } */}
+                <Route path="/*" element={<Dashboard />} />{" "}
               </Route>
 
               <Route path="/login" element={<LoginPage />} />
