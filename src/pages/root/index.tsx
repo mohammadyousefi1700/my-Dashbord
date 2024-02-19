@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 import { RouteType } from "./type";
 import { lazy, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Locations } from "./components/Locations";
+// import { Locations } from "./components/Locations";
 
 const Dashboard = lazy(() => import("../dashbord/index"));
 const TrelloPage = lazy(() => import("../dashbord/Trello/index"));
@@ -59,9 +59,9 @@ export const RootDashboard: RouteType[] = [
     path: "/Quotes",
     element: (
       <>
-        <Helmet>
-          <title>پیش فاکتور</title>
-        </Helmet>
+        {/* <Helmet> */}
+        <title>پیش فاکتور</title>
+        {/* </Helmet> */}
         <Quotes />
       </>
     ),
@@ -70,6 +70,9 @@ export const RootDashboard: RouteType[] = [
     path: "/telegram",
     element: (
       <>
+        {/* <Helmet> */}
+        <title>Telegram</title>
+        {/* </Helmet> */}
         <WebTelegram />
       </>
     ),

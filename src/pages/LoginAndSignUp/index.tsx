@@ -1,10 +1,7 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
 import { useLoggedInUser } from "../../utils/AutContext";
 import classNames from "classnames";
-import { ValidationEmail } from "./type";
-import { debounce } from "lodash";
 import _ from "lodash";
-// import {debounce} from "lodash"
 
 export interface User {
   name?: string;
@@ -45,7 +42,7 @@ function LoginPage() {
   return (
     <div className="justify-center  flex items-center h-full w-full opacity-[0.90] bg-no-repeat bg-[length:100%_100%]  bg-[url('/public/MilkyWayGalaxy.jpg')]">
       <form
-        className="  p-3  bg-inherit w-fit rounded-3xl  backdrop-brightness-0 opacity-80 "
+        className="p-3 bg-inherit w-fit rounded-3xl backdrop-brightness-0 opacity-80"
         onSubmit={(e) => {
           e.preventDefault();
           Promise.resolve(setUser(credentials)).then(() => handleSubmit(e));
@@ -53,7 +50,7 @@ function LoginPage() {
       >
         {isShowSignIn && (
           <div className="flex flex-col gap-y-3">
-            <label className="text-white font-semibold mr-2 text-xl">
+            <label className="mr-2 text-xl font-semibold text-white">
               نام:
             </label>
             <div className="w-[400px] bg-inherit ">
@@ -72,7 +69,7 @@ function LoginPage() {
           </div>
         )}
         <div className="flex flex-col gap-y-3">
-          <label className="text-white font-semibold mr-2 text-xl">
+          <label className="mr-2 text-xl font-semibold text-white">
             ایمیل:
           </label>
           <div className="w-[400px] bg-inherit ">
@@ -90,7 +87,7 @@ function LoginPage() {
           </div>
         </div>
         <div className="flex flex-col gap-y-3">
-          <label className="text-white font-semibold mr-2 text-xl">
+          <label className="mr-2 text-xl font-semibold text-white">
             رمز عبور:
           </label>
           <input
@@ -108,7 +105,7 @@ function LoginPage() {
 
         <button
           type="submit"
-          className="w-36 mt-3 h-12 text-center pb-2 hover:border-violet-800 hover:text-violet-800  border-2  rounded-lg  text-white font-semibold text-lg "
+          className="h-12 pb-2 mt-3 text-lg font-semibold text-center text-white border-2 rounded-lg w-36 hover:border-violet-800 hover:text-violet-800 "
         >
           {isShowSignIn ? "ثبت نام" : "ورود"}
         </button>
@@ -116,7 +113,7 @@ function LoginPage() {
         <button
           type="button"
           onClick={() => setIsShowSignIn(!isShowSignIn)}
-          className=" hover:text-violet-700 mr-2   my-3 block h-7 underline text-white"
+          className="block my-3 mr-2 text-white underline hover:text-violet-700 h-7"
         >
           {isShowSignIn ? "ورود" : "ثبت نام"}
         </button>

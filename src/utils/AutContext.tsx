@@ -1,7 +1,6 @@
-import { ID } from "appwrite";
+import { Account, ID } from "appwrite";
 import { account } from "appwrite.config";
 import HandleLoading from "components/Loading";
-import { set } from "lodash";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +17,7 @@ interface Authentication {
   user: Login | null;
   setUser: React.Dispatch<React.SetStateAction<Login | null>>;
   handleSubmit?: any;
+  LogOut?: any;
 }
 const initialState: Authentication = {
   user: {
@@ -43,38 +43,27 @@ export const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const fetchGetAccount = async () => {
       const GetAccount = account.get();
+
       try {
         setError(true);
         const res = await GetAccount;
+        console.log(res);
+
         setUser({
+          name: res.name,
           email: res.email as string,
           password: res.password as string,
         });
+        navigate("/");
         setError(false);
       } catch (err) {
         if (err) setError(false);
       }
     };
-    fetchGetAccount();
-    // GetAccount.then((res) => {
-    //   console.log("res", res);
+    console.log(user);
 
-    //   setError(false);
-    //   setUser({
-    //     email: res.email as string,
-    //     password: res.password as string,
-    //   });
-    //   setError(false);
-    //   navigate("/");
-    // }).catch((err) => {
-    //   // setError(err)  ;
-    //   if (err) {
-    //     setError(false);
-    //   }
-    //   console.log("err", err);
-    // });
+    fetchGetAccount();
   }, []);
-  // console.log("Error", Error);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (user?.name?.length) {
       const signup = account.create(
@@ -105,12 +94,29 @@ export const AuthProvider = ({ children }: Props) => {
         });
     }
   };
+  const LogOut = async (e: any) => {
+    console.log(e);
 
+    try {
+      const res = await account.deleteSession("current");
+      console.log(res);
+
+      if (res) {
+        // Assuming 'navigate' is a function to redirect the user
+        navigate("/login");
+      }
+
+      return res;
+    } catch (error) {
+      console.error("Error during logout:", error);
+      // Handle the error as needed
+    }
+  };
   if (Error) {
     return <HandleLoading />;
   } else {
     return (
-      <AuthContext.Provider value={{ user, setUser, handleSubmit }}>
+      <AuthContext.Provider value={{ user, setUser, handleSubmit, LogOut }}>
         {children}
       </AuthContext.Provider>
     );
