@@ -4,7 +4,7 @@ import { HandleSeparateThreeDigits } from "components/SeparateThreeDigits";
 import BaseTable, { TableColumnType } from "components/Table";
 import FetchData from "components/fetchData";
 import { GetPostList } from "lib/post";
-import React from "react";
+import React, { useState } from "react";
 
 const theadTable: TableColumnType<any>[] = [
   {
@@ -54,24 +54,24 @@ const theadTable: TableColumnType<any>[] = [
 ];
 
 function Quotes() {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const fetchDataQuotes = async () => {
     const data = await GetPostList();
-    console.log("datass", data);
 
     return data;
   };
   return (
     <>
       <div className="flex w-full   ">
-        <Button></Button>
+        <Button
+          onClick={() => setIsOpenModal(true)}
+          className="p-2 rounded-lg text-lg font-medium bg-red-600 text-white"
+        >
+          ایجاد فرصت فروش
+        </Button>
       </div>
       <FetchData deps={[]} request={fetchDataQuotes}>
         {(data) => {
-          console.log(
-            "data",
-            data?.documents.map((item) => item)
-          );
-
           return <BaseTable columns={theadTable} data={data?.documents} />;
         }}
       </FetchData>
