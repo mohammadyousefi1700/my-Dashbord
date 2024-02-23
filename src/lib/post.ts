@@ -11,6 +11,17 @@ export type PropCreatePosts = {
   accountIdSales: string;
 };
 
+export type PropsGetOpp = {
+  ProductName?: string;
+  description?: string;
+  images?: string;
+  location?: string;
+  category?: any;
+  price?: string;
+  salesPerson?: string;
+  accountIdSales?: string;
+};
+
 export const GetPostList = async () => {
   const data = database.listDocuments(
     "65bea692defb4ac174b5",

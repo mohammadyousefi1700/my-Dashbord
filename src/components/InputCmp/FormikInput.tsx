@@ -12,6 +12,7 @@ export type FormikInputType = BaseInputPropType & {
 function FormikInput(props: FormikInputType) {
   const { value, name, ...rest } = props;
   const [field] = useField({ name, value });
+  console.log([field]);
 
   return (
     <BaseInput
