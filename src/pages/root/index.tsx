@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 const Dashboard = lazy(() => import("../dashbord/index"));
 const TrelloPage = lazy(() => import("../dashbord/Trello/index"));
-const Quotes = lazy(() => import("../dashbord/Quotes/index"));
+const Quotes = lazy(() => import("../dashbord/opportunity/index"));
 const WebTelegram = lazy(() => import("../dashbord/WebTelegram/index"));
 const LoginPage = lazy(() => import("../LoginAndSignUp/index"));
 const NotFoundPage = lazy(() => import("../NotFoundPage/index"));
