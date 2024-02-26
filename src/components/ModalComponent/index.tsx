@@ -81,7 +81,7 @@ const Modal = (props: ModalProps) => {
             >
               {closable && (
                 <span
-                  className="absolute text-base cursor-pointer top-2 right-3"
+                  className="absolute text-base cursor-pointer top-2 left-3"
                   onClick={() => onClose()}
                 >
                   &#10006;

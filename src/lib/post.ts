@@ -7,8 +7,6 @@ export type PropCreatePosts = {
   location: string;
   category: any;
   price: string;
-  salesPerson: string;
-  accountIdSales: string;
 };
 
 export type PropsGetOpp = {
@@ -18,8 +16,6 @@ export type PropsGetOpp = {
   location?: string;
   category?: any;
   price?: string;
-  salesPerson?: string;
-  accountIdSales?: string;
 };
 
 export const GetPostList = async () => {
