@@ -3,6 +3,5 @@ export const HandleSeparateThreeDigits = (data?: any | null) => {
     data
   );
 
-  console.log("number", number);
   return <div>{number}</div>;
 };

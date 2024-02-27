@@ -4,9 +4,10 @@ import Modal from "components/ModalComponent";
 import FormikSelect from "components/optionAndSelect/FormikSelect";
 import { Form, Formik } from "formik";
 import { CreatePost, PropCreatePosts, PropsGetOpp } from "lib/post";
-import React, { Fragment, SetStateAction } from "react";
+import React, { ChangeEvent, Fragment, SetStateAction, useState } from "react";
 import FetchCategorySelectOption from "./FetchCategory";
 import Button from "components/Button";
+import ImageUploader from "components/ImagesComponent";
 
 export type PropsModal = {
   isShow: boolean;
@@ -17,11 +18,13 @@ function OpportunityModal(props: PropsModal) {
   const { isShow, onclose } = props;
 
   const inputClassName = "max-w-[200px] min-w-[150px]";
-
+  const [uploadedFile, setUploadedFile] = useState<string | ArrayBuffer | null>(
+    null
+  );
   const postNewOpportunity = async (data: PropsGetOpp) => {
     const payload: PropCreatePosts = {
       category: data.category,
-      images: data.images as string,
+      images: String(uploadedFile),
       location: data.location as string,
       price: data.price as string,
       ProductName: data.ProductName as string,
@@ -30,6 +33,16 @@ function OpportunityModal(props: PropsModal) {
     CreatePost(payload).then((res) => {
       return res;
     });
+  };
+
+  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setUploadedFile(reader.result);
+    };
+    reader.readAsDataURL(file as any);
   };
 
   return (
@@ -61,6 +74,7 @@ function OpportunityModal(props: PropsModal) {
             </div>
             <div>
               <FormikInput
+                type="number"
                 className={inputClassName}
                 textClassName="focus-visible:outline-none"
                 label="قیمت"
@@ -88,7 +102,10 @@ function OpportunityModal(props: PropsModal) {
             </div>
 
             <div>
-              <input type="file" />
+              <ImageUploader
+                handleUploadImage={handleUploadImage}
+                UploadImage={uploadedFile as string}
+              />
             </div>
             <Button
               className={
