@@ -1,4 +1,4 @@
-import { Account, ID } from "appwrite";
+import { ID } from "appwrite";
 import { account } from "appwrite.config";
 import HandleLoading from "components/Loading";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }: Props) => {
       try {
         setError(true);
         const res = await GetAccount;
-        console.log(res);
 
         setUser({
           name: res.name,
@@ -60,10 +59,9 @@ export const AuthProvider = ({ children }: Props) => {
         if (err) setError(false);
       }
     };
-    console.log(user);
 
     fetchGetAccount();
-  }, []);
+  }, [navigate]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (user?.name?.length) {
       const signup = account.create(
@@ -95,11 +93,8 @@ export const AuthProvider = ({ children }: Props) => {
     }
   };
   const LogOut = async (e: any) => {
-    console.log(e);
-
     try {
       const res = await account.deleteSession("current");
-      console.log(res);
 
       if (res) {
         // Assuming 'navigate' is a function to redirect the user

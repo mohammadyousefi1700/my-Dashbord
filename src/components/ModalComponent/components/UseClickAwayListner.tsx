@@ -8,8 +8,6 @@ export const useClickAwayListener = (
   callback: ClickAwayCallback
 ): ClickAwayListener => {
   const ref = useRef<HTMLDivElement>(null);
-  console.log("ref", ref);
-  console.log("callback", callback);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -26,8 +24,6 @@ export const useClickAwayListener = (
   }, [callback]);
 
   return (children: ReactNode) => {
-    console.log("children", children);
-
     return (
       <Fragment>
         <div ref={ref}>{children}</div>

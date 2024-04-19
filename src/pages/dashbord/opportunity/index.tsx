@@ -1,12 +1,11 @@
 import { ConvertDatePersian } from "Func/DatePer2";
 import Button from "components/Button";
-import Modal from "components/ModalComponent";
-import { HandleSeparateThreeDigits } from "components/SeparateThreeDigits";
 import BaseTable, { TableColumnType } from "components/Table";
 import FetchData from "components/fetchData";
 import { GetPostList } from "lib/post";
 import React, { useState } from "react";
 import CreateOpportunityModal from "./component/CreateOpportunityModal";
+import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 
 const theadTable: TableColumnType<any>[] = [
   {
@@ -26,8 +25,6 @@ const theadTable: TableColumnType<any>[] = [
     headerClassName: "justify-center",
     dataClassName: "text-center !font-normal",
     render: ({ currentRow }) => {
-      console.log("currentRow", currentRow);
-
       return <div>{currentRow?.ProductName}</div>;
     },
   },

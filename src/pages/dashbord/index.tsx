@@ -1,10 +1,10 @@
 import Layout from "components/layout";
-import { Root, RootDashboard } from "pages/root";
-import React, { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import TrelloPage from "./Trello";
-import { Helmet } from "react-helmet";
-import NotFoundPage from "pages/NotFoundPage";
+import { RootDashboard } from "pages/root";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+// import TrelloPage from "./Trello";
+// import { Helmet } from "react-helmet";
+// import NotFoundPage from "pages/NotFoundPage";
 
 function Dashboard() {
   // const location = useLocation();

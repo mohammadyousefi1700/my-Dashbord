@@ -1,13 +1,13 @@
 import FormikErrorMessage from "components/InputCmp/FormikErrorMessage";
 import FormikInput from "components/InputCmp/FormikInput";
 import Modal from "components/ModalComponent";
-import FormikSelect from "components/optionAndSelect/FormikSelect";
 import { Form, Formik } from "formik";
 import { CreatePost, PropCreatePosts, PropsGetOpp } from "lib/post";
-import React, { ChangeEvent, Fragment, SetStateAction, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import FetchCategorySelectOption from "./FetchCategory";
 import Button from "components/Button";
 import ImageUploader from "components/ImagesComponent";
+import validatePostOpportunity from "./validate";
 
 export type PropsModal = {
   isShow: boolean;
@@ -44,6 +44,7 @@ function OpportunityModal(props: PropsModal) {
     };
     reader.readAsDataURL(file as any);
   };
+  // console.log("validatePostOpportunity", validatePostOpportunity);
 
   return (
     <Modal
@@ -52,70 +53,91 @@ function OpportunityModal(props: PropsModal) {
       visible={isShow}
     >
       <div>
-        <Formik
+        <Formik<PropCreatePosts>
+          validate={validatePostOpportunity}
           initialValues={{
-            ProductName: "",
-            price: "",
-            description: "",
-            location: "",
             category: "",
             images: "",
+            location: "",
+            price: "",
+            ProductName: "",
+            description: "",
           }}
           onSubmit={async (values) => await postNewOpportunity(values)}
         >
-          <Form className="flex flex-row flex-wrap items-center gap-y-5 gap-x-5">
-            <div>
-              <FormikInput
-                className={inputClassName}
-                label={"نام کالا"}
-                name="ProductName"
-                placeholder="مثلا موبایل"
-              />
-            </div>
-            <div>
-              <FormikInput
-                type="number"
-                className={inputClassName}
-                textClassName="focus-visible:outline-none"
-                label="قیمت"
-                name="price"
-                placeholder="مثال 10,000"
-              />
-            </div>
-            <div>
-              <FormikInput
-                label={"توضیحات"}
-                className={inputClassName}
-                name="description"
-                placeholder="توضیح راجب کالا"
-              />
-            </div>
-            <div>
-              <FormikInput
-                className={inputClassName}
-                label={"محل کالا"}
-                name="location"
-              />
-            </div>
-            <div>
-              <FetchCategorySelectOption classNames={inputClassName} />
-            </div>
+          {({ values }) => {
+            return (
+              <Form className="flex flex-row flex-wrap items-center gap-y-5 gap-x-5">
+                <div>
+                  <FormikInput
+                    className={inputClassName}
+                    label={"نام کالا"}
+                    labelProps={{ variant: "subtitle", required: true }}
+                    name="ProductName"
+                    placeholder="مثلا موبایل"
+                  />
+                  <FormikErrorMessage name="ProductName" />
+                </div>
+                <div>
+                  <FormikInput
+                    className={inputClassName}
+                    textClassName="focus-visible:outline-none"
+                    labelProps={{ variant: "subtitle", required: true }}
+                    label="قیمت"
+                    name="price"
+                    placeholder="مثال 10,000"
+                  />
+                  <FormikErrorMessage name="price" />
+                </div>
+                <div>
+                  <FormikInput
+                    label={"توضیحات"}
+                    className={inputClassName}
+                    labelProps={{ variant: "subtitle", required: true }}
+                    name="description"
+                    placeholder="توضیح راجب کالا"
+                  />
+                  <FormikErrorMessage name="description" />
+                </div>
+                <div className="mt-8">
+                  <FormikInput
+                    labelProps={{ variant: "subtitle", required: true }}
+                    className={inputClassName}
+                    label={"محل کالا"}
+                    name="location"
+                  />
+                  <FormikErrorMessage name="location" />
+                </div>
+                <div>
+                  <FetchCategorySelectOption classNames={inputClassName} />
+                </div>
 
-            <div>
-              <ImageUploader
-                handleUploadImage={handleUploadImage}
-                UploadImage={uploadedFile as string}
-              />
-            </div>
-            <Button
-              className={
-                " text-white  mt-7 px-6 font-medium text-lg py-2 bg-red-700 rounded-lg "
-              }
-              type="submit"
-            >
-              ثبت
-            </Button>
-          </Form>
+                <div className="mr-12">
+                  <ImageUploader
+                    handleUploadImage={handleUploadImage}
+                    UploadImage={uploadedFile as string}
+                  />
+                </div>
+                <Button
+                  disabled={
+                    values.ProductName &&
+                    // values.category &&
+                    values.description &&
+                    values.location &&
+                    values.price
+                      ? false
+                      : true
+                  }
+                  BtnClassName={
+                    " text-white  mt-7 px-6 font-medium text-lg py-2 bg-red-700 rounded-lg "
+                  }
+                  type="submit"
+                >
+                  ثبت
+                </Button>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
     </Modal>

@@ -1,8 +1,9 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import Board from "./components/Board";
 
-function TrelloPage({ children }: any) {
-  return <div>TrelloPage</div>;
+function TrelloPage() {
+  return <Board />;
+  // return <div></div>;
 }
 
 export default TrelloPage;

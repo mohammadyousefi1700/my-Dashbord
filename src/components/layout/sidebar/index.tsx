@@ -17,7 +17,6 @@ function Sidebar() {
   //   minute: "2-digit",
   // }).format(new Date());
   // console.log(dateFormatHours);
-  console.log("Date.now()", Date.now());
 
   return (
     <div

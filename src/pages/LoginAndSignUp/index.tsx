@@ -27,8 +27,6 @@ function LoginPage() {
 
   const debouncedHandleInputChange = useCallback(
     _.debounce((nextValue) => {
-      console.log("nextValue", nextValue);
-
       setCredentials((prevValues) => ({ ...prevValues, ...nextValue }));
     }, 1000),
     []

@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { user, LogOut } = useLoggedInUser();
-  // console.log("user", user);
   return (
     <div className="fixed w-full  top-0 left-0  right-0 z-30 flex items-center justify-between p-2 h-10 bg-[#343a40] ">
       {/* //   <p className="flex items-center mr-auto">

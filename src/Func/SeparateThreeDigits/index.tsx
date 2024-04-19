@@ -3,5 +3,5 @@ export const HandleSeparateThreeDigits = (data?: any | null) => {
     data
   );
 
-  return <div>{number}</div>;
+  return number;
 };

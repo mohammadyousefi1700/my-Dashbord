@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet";
 import { RouteType } from "./type";
-import { lazy, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { lazy } from "react";
 // import { Locations } from "./components/Locations";
 
 const Dashboard = lazy(() => import("../dashbord/index"));
@@ -35,7 +34,7 @@ export const Root: RouteType[] = [
   },
 ];
 
-console.log("window.location.href", window.location.href);
+// console.log("window.location.href", window.location.href);
 
 export const RootDashboard: RouteType[] = [
   {
