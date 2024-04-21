@@ -21,8 +21,6 @@ function App() {
                 </>
               ))} */}
               <Route element={<PrivateRoute />}>
-                {/* {Root.map((item, key) => ( */}
-                {/* <Route key={key} {...item} /> */}
                 {/* ))  } */}
                 <Route path="/*" element={<Dashboard />} />{" "}
               </Route>

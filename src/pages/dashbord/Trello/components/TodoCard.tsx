@@ -32,7 +32,9 @@ function TodoCard({
       {/* <Image classNames="w-10 h-10 "  uploadedFile={todo.images} /> */}
       <Image uploadedFile={todo.images} classNames="w-20 h-20  rounded-full" />
       <div>
-        <p>{todo.productName}</p>
+        <p title={todo.productName} className="w-[18rem] truncate">
+          {todo.productName}
+        </p>
         <p>قیمت: {HandleSeparateThreeDigits(todo.price)}</p>
         <p>تعداد: {todo.number}</p>
         <p>نام خریدار: {todo.CustomerName}</p>

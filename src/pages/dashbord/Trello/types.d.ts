@@ -33,8 +33,6 @@ interface Board {
 //   OrderCompletion = "65e1ee9e4d7612578afd",
 // }
 export type TypedColumn =
-  | "درحال ورود اطلاعات"
-  | "پرداخت و نهایی کردن سفارش"
   | "در انتظار تایید سفارش"
   | "سفارش ارسال شد"
   | "تکمیل سفارش";

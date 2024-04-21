@@ -1,18 +1,12 @@
-// import { database } from "@/appwrite";
-
 import { database } from "appwrite.config";
-// import { GetOrderCategory } from "lib/orderCategory";
 import { Board, ColumnType, TypedColumn } from "../types";
-// import { GetTodosGroupedByColumnTypes } from "./type";
 
 export const getTodosGroupedByColumn = async () => {
   const data = await database.listDocuments(
     "65bea692defb4ac174b5",
     "65bea7a66c63686afbef"
   );
-  // GetOrderCategory();
   const todos = data.documents;
-  console.log("todos", todos);
 
   const columns = todos.reduce((acc, todo) => {
     if (!acc.get(todo.categoryStatusOrderRelations?.statusNames)) {
@@ -34,15 +28,12 @@ export const getTodosGroupedByColumn = async () => {
         $id: todo.categoryStatusOrderRelations.$id,
         statusNames: todo.categoryStatusOrderRelations.statusNames,
       },
-      // ...(todo.image && { image: JSON.parse(todo.image) }),
     });
 
     return acc;
   }, new Map<TypedColumn, ColumnType>());
 
   const columnTypes: TypedColumn[] = [
-    "درحال ورود اطلاعات",
-    "پرداخت و نهایی کردن سفارش",
     "در انتظار تایید سفارش",
     "سفارش ارسال شد",
     "تکمیل سفارش",
