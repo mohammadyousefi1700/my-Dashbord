@@ -2,6 +2,7 @@ import React, { ChangeEvent, useCallback, useState } from "react";
 import { useLoggedInUser } from "../../utils/AutContext";
 import classNames from "classnames";
 import _ from "lodash";
+import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 
 export interface User {
   name?: string;
@@ -17,6 +18,8 @@ const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 function LoginPage() {
   const { setUser, handleSubmit } = useLoggedInUser();
+
+  useDocumentTitle("لاگین و ثبت نام");
 
   const [credentials, setCredentials] = useState<User>({
     name: "",

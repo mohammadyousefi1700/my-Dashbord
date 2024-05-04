@@ -14,6 +14,7 @@ import FetchCategorySelectOption from "./FetchCategory";
 import Button from "components/Button";
 import ImageUploader from "components/ImagesComponent";
 import validatePostOpportunity from "./validate";
+import HandleLoading from "components/Loading";
 
 export type PropsModal = {
   isShow: boolean;
@@ -56,7 +57,6 @@ function OpportunityModal(props: PropsModal) {
     };
     reader.readAsDataURL(file as any);
   };
-  // console.log("validatePostOpportunity", validatePostOpportunity);
 
   return (
     <Modal
@@ -67,6 +67,7 @@ function OpportunityModal(props: PropsModal) {
       <div>
         <Formik<PropCreatePosts2>
           validate={validatePostOpportunity}
+          enableReinitialize
           initialValues={{
             category:
               {
@@ -79,10 +80,12 @@ function OpportunityModal(props: PropsModal) {
             ProductName: dataRowUpdate?.ProductName || "",
             description: dataRowUpdate?.description || "",
           }}
-          onSubmit={async (values) => await postNewOpportunity(values)}
+          onSubmit={async (values) => {
+            await postNewOpportunity(values);
+          }}
         >
-          {({ values }) => {
-            console.log("values", values);
+          {({ values, isSubmitting }) => {
+            console.log("isSubmitting", isSubmitting);
 
             return (
               <Form className="flex flex-row flex-wrap items-center gap-y-5 gap-x-5">
@@ -140,7 +143,9 @@ function OpportunityModal(props: PropsModal) {
                   />
                 </div>
                 <Button
+                  loading={isSubmitting}
                   disabled={
+                    isSubmitting &&
                     values.ProductName &&
                     // values.category &&
                     values.description &&

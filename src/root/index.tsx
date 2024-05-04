@@ -1,13 +1,12 @@
-import { Helmet } from "react-helmet";
 import { RouteType } from "./type";
 import { lazy } from "react";
-// import { Locations } from "./components/Locations";
+import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 
-const Dashboard = lazy(() => import("../dashbord/index"));
-const TrelloPage = lazy(() => import("../dashbord/Trello/index"));
-const Quotes = lazy(() => import("../dashbord/opportunity/index"));
-const LoginPage = lazy(() => import("../LoginAndSignUp/index"));
-const NotFoundPage = lazy(() => import("../NotFoundPage/index"));
+const Dashboard = lazy(() => import("../pages/dashbord/index"));
+const TrelloPage = lazy(() => import("../pages/dashbord/Trello/index"));
+const Quotes = lazy(() => import("../pages/dashbord/opportunity/index"));
+const LoginPage = lazy(() => import("../pages/LoginAndSignUp/index"));
+const NotFoundPage = lazy(() => import("../pages/NotFoundPage/index"));
 
 export const handleHelmet = (path: string, title: string) => {};
 
@@ -16,9 +15,6 @@ export const Root: RouteType[] = [
     path: "/",
     element: (
       <>
-        <Helmet>
-          <title>داشبورد</title>
-        </Helmet>
         <Dashboard />
       </>
     ),
@@ -55,10 +51,7 @@ export const RootDashboard: RouteType[] = [
     path: "/Quotes",
     element: (
       <>
-        {/* <Helmet> */}
-        <title>پیش فاکتور</title>
-        {/* </Helmet> */}
-        <Quotes />
+        <Quotes />{" "}
       </>
     ),
   },

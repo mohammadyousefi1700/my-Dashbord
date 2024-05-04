@@ -1,7 +1,8 @@
 "use server";
 
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import { database } from "appwrite.config";
+import { FiltersOpportunity } from "pages/dashbord/opportunity";
 export type PropCreatePosts = {
   ProductName: string;
   description?: string;
@@ -30,10 +31,11 @@ export type PropsGetOpp = {
   price?: string;
 };
 
-export const GetPostList = async () => {
+export const GetPostList = async (Filter: FiltersOpportunity) => {
   const data = database.listDocuments(
     "65bea692defb4ac174b5",
-    "65ca909e17dbfeda3482"
+    "65ca909e17dbfeda3482",
+    [Query.limit(8), Query.offset(Filter.total as number)]
   );
   return await data;
 };

@@ -7,12 +7,29 @@ import React, { useState } from "react";
 import CreateOpportunityModal from "./component/CreateOpportunityModal";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Pencil } from "heroicons-react";
+import Pagination from "components/Pagination";
+import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
+
+export type FiltersOpportunity = {
+  ProductName?: string;
+  $createdAt?: string;
+  total?: number;
+};
 
 function Quotes() {
+  const initialFilters = {
+    ProductName: undefined,
+    $createdAt: String(new Date()),
+    total: 1,
+  };
+  useDocumentTitle("کوت");
+
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [stateUpdateOpp, setUpdateOpp] = useState<PropCreatePosts | null>(null);
+  const [filters, setFilters] = useState<FiltersOpportunity>(initialFilters);
   const fetchDataQuotes = async () => {
-    const data = await GetPostList();
+    const data = await GetPostList(filters);
+    console.log("filters", filters);
 
     return data;
   };
@@ -104,9 +121,25 @@ function Quotes() {
           ایجاد فرصت فروش
         </Button>
       </div>
-      <FetchData handleEmptyData={false} deps={[]} request={fetchDataQuotes}>
+      <FetchData
+        handleEmptyData={false}
+        deps={[filters]}
+        request={fetchDataQuotes}
+      >
         {(data) => {
-          return <BaseTable columns={theadTable} data={data?.documents} />;
+          return (
+            <>
+              {" "}
+              <BaseTable columns={theadTable} data={data?.documents} />;
+              <Pagination
+                current={filters.total}
+                onchange={(currentPage) => {
+                  setFilters({ ...filters, total: currentPage });
+                }}
+                total={Number(data?.total || 1) / Number(8)}
+              />
+            </>
+          );
         }}
       </FetchData>
       <CreateOpportunityModal

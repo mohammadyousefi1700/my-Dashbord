@@ -13,6 +13,7 @@ export const disableClasses = "!text-white !bg-[#E2E2E2] !cursor-not-allowed";
 
 function Button(props: BtnProps) {
   const { children, BtnClassName, leftIcon, rightIcon, loading } = props;
+  console.log("loading", loading);
 
   return (
     <button
