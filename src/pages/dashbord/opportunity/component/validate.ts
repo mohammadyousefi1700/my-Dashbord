@@ -1,7 +1,7 @@
 import { isRequired } from "components/FormikRequired";
-import { PropCreatePosts } from "lib/post";
+import { PropCreatePosts, PropCreatePosts2 } from "lib/apiOpportunity";
 
-const validatePostOpportunity = (formikValuse: PropCreatePosts) => {
+const validatePostOpportunity = (formikValuse: PropCreatePosts2) => {
   const error: any = {};
   const requiredVariables: (keyof typeof formikValuse)[] = [
     "ProductName",

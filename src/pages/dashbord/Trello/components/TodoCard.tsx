@@ -2,10 +2,9 @@ import {
   DraggableProvidedDragHandleProps,
   DraggableProvidedDraggableProps,
 } from "react-beautiful-dnd";
-import { TypedColumn, Todo } from "../types";
 import Image from "components/ImagesComponent/ImageUploader";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
-
+import { Todo, TypedColumn } from "../types";
 type Props = {
   todo: Todo;
   index: number;

@@ -6,8 +6,8 @@ export const GetCategoryOpp = async () => {
     "65bea8246b5564413539"
   );
   const categories = (await data).documents.map((ds) => ({
-    value: ds.$id,
     label: ds.EntityNameFilter,
+    value: ds.$id,
   }));
 
   return categories;

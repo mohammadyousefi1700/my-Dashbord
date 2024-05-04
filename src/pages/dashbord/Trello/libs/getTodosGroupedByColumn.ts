@@ -1,5 +1,6 @@
 import { database } from "appwrite.config";
-import { Board, ColumnType, TypedColumn } from "../types";
+import { ColumnType, TypedColumn } from "./typeGetTodosGroup";
+import { Board } from "../types";
 
 export const getTodosGroupedByColumn = async () => {
   const data = await database.listDocuments(
@@ -9,13 +10,13 @@ export const getTodosGroupedByColumn = async () => {
   const todos = data.documents;
 
   const columns = todos.reduce((acc, todo) => {
-    if (!acc.get(todo.categoryStatusOrderRelations?.statusNames)) {
-      acc.set(todo.categoryStatusOrderRelations?.statusNames, {
-        id: todo.categoryStatusOrderRelations.status,
+    if (!acc.get(todo.status)) {
+      acc.set(todo.status, {
+        id: todo.status,
         todos: [],
       });
     }
-    acc.get(todo.categoryStatusOrderRelations.statusNames)!.todos.push({
+    acc.get(todo.status)!.todos.push({
       $id: todo.$id,
       $updatedAt: todo.$updatedAt,
       productName: todo.productName,
@@ -24,19 +25,18 @@ export const getTodosGroupedByColumn = async () => {
       images: todo.images,
       price: todo.price,
       CustomerName: todo.CustomerName,
-      categoryStatusOrderRelations: {
-        $id: todo.categoryStatusOrderRelations.$id,
-        statusNames: todo.categoryStatusOrderRelations.statusNames,
-      },
+      status: todo.status,
     });
 
     return acc;
   }, new Map<TypedColumn, ColumnType>());
 
   const columnTypes: TypedColumn[] = [
-    "در انتظار تایید سفارش",
-    "سفارش ارسال شد",
-    "تکمیل سفارش",
+    TypedColumn.PaymentAndOrderFinalizationStatus,
+    TypedColumn.AwaitingOrderConfirmation,
+    TypedColumn.OrderConfirmed,
+    TypedColumn.TheOrderWasSent,
+    TypedColumn.OrderCompletions,
   ];
 
   for (const columnType of columnTypes) {

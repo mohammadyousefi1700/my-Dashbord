@@ -68,6 +68,7 @@ export default function BaseSelect<T>(props: SelectPropTypes<T>) {
   const handleSelect = (value: any) => {
     if (multiple) {
       const newSelected = value;
+
       setSelected(newSelected);
       onSelect?.(newSelected, value);
     } else {
@@ -80,18 +81,21 @@ export default function BaseSelect<T>(props: SelectPropTypes<T>) {
     if (multiple) {
       if (!selected || !Array.isArray(selected as any)) return [];
       return options?.filter((option) =>
-        (selected as any).find((item: any) => item?.value === option.value)
+        (selected as any).find((item: any) => {
+          return item?.value === option.value;
+        })
       );
     }
 
-    if (options?.length)
-      return options?.filter((option) => option.value === selected)?.[0];
-    else return [];
+    if (options?.length) {
+      return options?.filter((option) => {
+        return option.value === selected;
+      })?.[0];
+    } else return [];
   };
 
   const renderSelectedValue = () => {
     const selectedValue: any = getSelectedValue();
-
     if (typeof renderValue === "function") {
       return renderValue(selectedValue as any);
     }

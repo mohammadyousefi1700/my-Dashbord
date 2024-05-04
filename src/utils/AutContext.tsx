@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: Props) => {
           if (res.$id) return navigate("/");
         })
         .catch((err) => {
-          console.log(err, "ssss");
+          alert("مشکل در لاگین ایجاد شده");
         });
     }
   };

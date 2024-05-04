@@ -1,12 +1,9 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import TodoCard from "./TodoCard";
-// import { useModalStore } from "../store/ModalStore";
-import { Todo, TypedColumn } from "../types";
 import { useBoardStore } from "../store/BoardStore";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
-// import { GetOrderCategory } from "lib/orderCategory";
+import { Todo, TypedColumn } from "../types";
 
 type Props = {
   id: TypedColumn;
@@ -29,11 +26,18 @@ function Column({ id, index, todos }: Props) {
       ).length;
 
   const idTodoColumnText: {
-    [key in TypedColumn]: string;
+    [key in
+      | TypedColumn.PaymentAndOrderFinalizationStatus
+      | TypedColumn.AwaitingOrderConfirmation
+      | TypedColumn.OrderConfirmed
+      | TypedColumn.TheOrderWasSent
+      | TypedColumn.OrderCompletions]: string;
   } = {
-    "در انتظار تایید سفارش": "در انتظار تایید سفارش",
-    "سفارش ارسال شد": "سفارش ارسال شد",
-    "تکمیل سفارش": "تکمیل سفارش",
+    "Payment and order finalization": "پرداخت و نهایی کردن سفارش",
+    "Awaiting order confirmation": "در انتظار تایید سفارش",
+    "Order confirmed": "تایید سفارش",
+    "The order was sent": "سفارش ارسال شد",
+    "Order completion": "تکمیل سفارش",
   };
 
   return (

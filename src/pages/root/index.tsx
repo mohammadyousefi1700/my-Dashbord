@@ -6,7 +6,6 @@ import { lazy } from "react";
 const Dashboard = lazy(() => import("../dashbord/index"));
 const TrelloPage = lazy(() => import("../dashbord/Trello/index"));
 const Quotes = lazy(() => import("../dashbord/opportunity/index"));
-const WebTelegram = lazy(() => import("../dashbord/WebTelegram/index"));
 const LoginPage = lazy(() => import("../LoginAndSignUp/index"));
 const NotFoundPage = lazy(() => import("../NotFoundPage/index"));
 
@@ -34,8 +33,6 @@ export const Root: RouteType[] = [
   },
 ];
 
-// console.log("window.location.href", window.location.href);
-
 export const RootDashboard: RouteType[] = [
   {
     path: "*",
@@ -62,17 +59,6 @@ export const RootDashboard: RouteType[] = [
         <title>پیش فاکتور</title>
         {/* </Helmet> */}
         <Quotes />
-      </>
-    ),
-  },
-  {
-    path: "/telegram",
-    element: (
-      <>
-        {/* <Helmet> */}
-        <title>Telegram</title>
-        {/* </Helmet> */}
-        <WebTelegram />
       </>
     ),
   },

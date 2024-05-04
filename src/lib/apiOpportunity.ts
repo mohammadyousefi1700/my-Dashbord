@@ -1,3 +1,5 @@
+"use server";
+
 import { ID } from "appwrite";
 import { database } from "appwrite.config";
 export type PropCreatePosts = {
@@ -5,11 +7,21 @@ export type PropCreatePosts = {
   description?: string;
   images: string;
   location: string;
-  category: any;
+  category: { EntityNameFilter: string; $id: string };
   price: string;
+  $id?: string;
 };
-
+export type PropCreatePosts2 = {
+  ProductName: string;
+  description?: string;
+  images: string;
+  location: string;
+  category: { label: string; value: string };
+  price: string;
+  $id?: string;
+};
 export type PropsGetOpp = {
+  $id?: string;
   ProductName?: string;
   description?: string;
   images?: string;
@@ -33,4 +45,21 @@ export const CreatePost = async (data: PropCreatePosts) => {
     data
   );
   return Postdata;
+};
+
+export const UpdateOpportunity = async (data: PropCreatePosts) => {
+  const UpdateOpp = await database.updateDocument(
+    "65bea692defb4ac174b5",
+    "65ca909e17dbfeda3482",
+    data.$id as string,
+    {
+      ProductName: data.ProductName,
+      description: data.description,
+      images: data.images,
+      location: data.location,
+      category: data.category,
+      price: data.price,
+    }
+  );
+  return UpdateOpp;
 };

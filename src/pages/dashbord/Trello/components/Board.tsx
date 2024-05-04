@@ -26,7 +26,6 @@ function Board() {
     if (!destination) return;
     if (type === "column") {
       const entries = Array.from(board.columns.entries());
-      console.log("entries", entries);
 
       const [removed] = entries.splice(source.index, 1);
       entries.splice(destination.index, 0, removed);
@@ -70,6 +69,7 @@ function Board() {
         id: startCol.id,
         todos: newTodos,
       };
+
       newColumns.set(startCol.id as any, newCol);
       newColumns.set(finishCol.id as any, {
         id: finishCol.id,

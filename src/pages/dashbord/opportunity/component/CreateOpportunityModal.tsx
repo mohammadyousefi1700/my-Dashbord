@@ -2,7 +2,13 @@ import FormikErrorMessage from "components/InputCmp/FormikErrorMessage";
 import FormikInput from "components/InputCmp/FormikInput";
 import Modal from "components/ModalComponent";
 import { Form, Formik } from "formik";
-import { CreatePost, PropCreatePosts, PropsGetOpp } from "lib/post";
+import {
+  CreatePost,
+  PropCreatePosts,
+  PropCreatePosts2,
+  PropsGetOpp,
+  UpdateOpportunity,
+} from "lib/apiOpportunity";
 import React, { ChangeEvent, useState } from "react";
 import FetchCategorySelectOption from "./FetchCategory";
 import Button from "components/Button";
@@ -12,15 +18,17 @@ import validatePostOpportunity from "./validate";
 export type PropsModal = {
   isShow: boolean;
   onclose: () => void;
+  dataRowUpdate: PropCreatePosts | null;
 };
 
 function OpportunityModal(props: PropsModal) {
-  const { isShow, onclose } = props;
+  const { isShow, onclose, dataRowUpdate } = props;
 
   const inputClassName = "max-w-[200px] min-w-[150px]";
   const [uploadedFile, setUploadedFile] = useState<string | ArrayBuffer | null>(
     null
   );
+
   const postNewOpportunity = async (data: PropsGetOpp) => {
     const payload: PropCreatePosts = {
       category: data.category,
@@ -33,6 +41,10 @@ function OpportunityModal(props: PropsModal) {
     CreatePost(payload).then((res) => {
       return res;
     });
+
+    if (data.$id) {
+      UpdateOpportunity(payload).then((res) => res);
+    }
   };
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,19 +65,25 @@ function OpportunityModal(props: PropsModal) {
       visible={isShow}
     >
       <div>
-        <Formik<PropCreatePosts>
+        <Formik<PropCreatePosts2>
           validate={validatePostOpportunity}
           initialValues={{
-            category: "",
-            images: "",
-            location: "",
-            price: "",
-            ProductName: "",
-            description: "",
+            category:
+              {
+                label: dataRowUpdate?.category.EntityNameFilter as string,
+                value: dataRowUpdate?.category.$id as string,
+              } || "",
+            images: dataRowUpdate?.images || "",
+            location: dataRowUpdate?.location || "",
+            price: dataRowUpdate?.price || "",
+            ProductName: dataRowUpdate?.ProductName || "",
+            description: dataRowUpdate?.description || "",
           }}
           onSubmit={async (values) => await postNewOpportunity(values)}
         >
           {({ values }) => {
+            console.log("values", values);
+
             return (
               <Form className="flex flex-row flex-wrap items-center gap-y-5 gap-x-5">
                 <div>
@@ -109,7 +127,10 @@ function OpportunityModal(props: PropsModal) {
                   <FormikErrorMessage name="location" />
                 </div>
                 <div>
-                  <FetchCategorySelectOption classNames={inputClassName} />
+                  <FetchCategorySelectOption
+                    defualtValues={values.category}
+                    classNames={inputClassName}
+                  />
                 </div>
 
                 <div className="mr-12">

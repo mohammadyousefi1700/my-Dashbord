@@ -2,6 +2,7 @@ import { database } from "appwrite.config";
 import { create } from "zustand";
 import { getTodosGroupedByColumn } from "../libs/getTodosGroupedByColumn";
 import { Board, ColumnType, Todo, TypedColumn } from "../types";
+// import { Board, ColumnType, Todo, TypedColumn } from "../types";
 
 interface BoardState {
   board: Board;
@@ -40,9 +41,7 @@ export const useBoardStore = create<BoardState>((set) => ({
         number: todo.number,
         stateProduct: todo.stateProduct,
         price: todo.price,
-        categoryStatusOrderRelations: {
-          statusNames: columnId,
-        },
+        status: columnId,
         images: todo.images,
       }
     );
