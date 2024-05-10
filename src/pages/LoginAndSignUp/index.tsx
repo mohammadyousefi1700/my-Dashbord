@@ -40,8 +40,9 @@ function LoginPage() {
     setCredentials((prevValues) => ({ ...prevValues, [name]: value }));
     debouncedHandleInputChange({ [name]: value });
   };
+
   return (
-    <div className="justify-center  flex items-center h-full w-full opacity-[0.90] bg-no-repeat bg-[length:100%_100%]  bg-[url('/public/MilkyWayGalaxy.jpg')]">
+    <div className="justify-center  flex items-center h-screen w-screen opacity-[0.90] bg-no-repeat bg-[length:100%_100%]  bg-[url('/public/MilkyWayGalaxy.jpg')]">
       <form
         className="p-3 bg-inherit w-fit rounded-3xl backdrop-brightness-0 opacity-80"
         onSubmit={(e) => {

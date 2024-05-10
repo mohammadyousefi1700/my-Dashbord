@@ -3,9 +3,8 @@ import Board from "./components/Board";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 
 function TrelloPage() {
-  useDocumentTitle("trello");
+  useDocumentTitle("داشبورد");
   return <Board />;
-  // return <div></div>;
 }
 
 export default TrelloPage;

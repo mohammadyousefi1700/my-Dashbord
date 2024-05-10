@@ -103,7 +103,7 @@ function Quotes() {
                 });
                 setIsOpenModal(true);
               }}
-              className="flex justify-center w-6 h-6"
+              className="flex justify-center w-6 h-6 cursor-pointer"
             />
           </div>
         );

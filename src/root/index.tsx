@@ -1,6 +1,5 @@
 import { RouteType } from "./type";
 import { lazy } from "react";
-import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 
 const Dashboard = lazy(() => import("../pages/dashbord/index"));
 const TrelloPage = lazy(() => import("../pages/dashbord/Trello/index"));

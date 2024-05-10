@@ -41,7 +41,7 @@ function Column({ id, index, todos }: Props) {
   };
 
   return (
-    <Draggable isDragDisabled={false} draggableId={id} index={index}>
+    <Draggable isDragDisabled={true} draggableId={id} index={index}>
       {(provided) => (
         <div
           className="pb-5"
