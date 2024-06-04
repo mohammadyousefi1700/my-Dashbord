@@ -12,7 +12,6 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route element={<PrivateRoute />}>
-              {/* ))  } */}
               <Route path="/*" element={<Dashboard />} />{" "}
             </Route>
 

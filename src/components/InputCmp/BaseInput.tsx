@@ -75,7 +75,7 @@ const BaseInput = forwardRef(
             tabIndex={-1}
             autoComplete="off"
             type="text"
-            className={`block w-full border-0 p-0 text-gray-900 placeholder-gray-500 sm:text-sm focus:ring-transparent ${
+            className={`block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus-visible:outline-none sm:text-sm focus:ring-transparent ${
               isLink ? "hover:cursor-pointer " : ""
             }  ${
               disabled && !isLink ? "bg-transparent cursor-not-allowed " : null

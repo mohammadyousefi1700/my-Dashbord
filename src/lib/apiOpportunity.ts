@@ -2,9 +2,9 @@
 
 import { ID, Query } from "appwrite";
 import { database } from "appwrite.config";
-import { FiltersOpportunity } from "pages/dashbord/opportunity";
+import { FiltersOpportunityType } from "pages/dashbord/opportunity/component/type";
 export type PropCreatePosts = {
-  ProductName: string;
+  productName: string;
   description?: string;
   images: string;
   location: string;
@@ -13,7 +13,7 @@ export type PropCreatePosts = {
   $id?: string;
 };
 export type PropCreatePosts2 = {
-  ProductName: string;
+  productName: string;
   description?: string;
   images: string;
   location: string;
@@ -23,7 +23,7 @@ export type PropCreatePosts2 = {
 };
 export type PropsGetOpp = {
   $id?: string;
-  ProductName?: string;
+  productName?: string;
   description?: string;
   images?: string;
   location?: string;
@@ -31,11 +31,17 @@ export type PropsGetOpp = {
   price?: string;
 };
 
-export const GetPostList = async (Filter: FiltersOpportunity) => {
+export const GetPostList = async (Filter: FiltersOpportunityType) => {
+  console.log("Filter", Filter);
+
   const data = database.listDocuments(
     "65bea692defb4ac174b5",
     "65ca909e17dbfeda3482",
-    [Query.limit(8), Query.offset(Filter.total as number)]
+    [
+      Query.limit(8),
+      Query.offset(Filter.total as number),
+      // Query.equal("productName", "" ),
+    ]
   );
   return await data;
 };
@@ -55,7 +61,7 @@ export const UpdateOpportunity = async (data: PropCreatePosts) => {
     "65ca909e17dbfeda3482",
     data.$id as string,
     {
-      ProductName: data.ProductName,
+      productName: data.productName,
       description: data.description,
       images: data.images,
       location: data.location,

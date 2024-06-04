@@ -8,18 +8,8 @@ type Props = {
 };
 
 const FetchCategorySelectOption = (props: Props) => {
-  const { classNames, defualtValues } = props;
-  // const defualtValuesOptionTypeSelectComponent: {
-  //   label: string;
-  //   value: string;
-  // } = {
-  //   label: defualtValues?.EntityNameFilter as any,
-  //   value: defualtValues?.$id as any,
-  // };
-  const jls = {
-    label: "لپ تاپ",
-    value: "65bea9c0f112985182a8",
-  };
+  const { classNames } = props;
+
   const getCategry = async () => {
     const res = await GetCategoryOpp();
     return res;
@@ -28,8 +18,6 @@ const FetchCategorySelectOption = (props: Props) => {
     <div className="">
       <FetchData request={getCategry} handleLoading={false} deps={[]}>
         {(data, { loading }) => {
-          console.log("data", data);
-
           return (
             <FormikSelect
               className={classNames}

@@ -1,19 +1,20 @@
-import parseClassNames from 'classnames'
+import parseClassNames from "classnames";
 
 import {
   boxNumberClassName,
   currentPageClassName,
   numberClassName,
-} from './classNames'
+} from "./classNames";
+import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 
 const NumberBox = ({
   pageNumber,
   currentPage,
   pageChange,
 }: {
-  pageNumber: number
-  currentPage: number
-  pageChange: (newPageNumber: number) => void
+  pageNumber: number;
+  currentPage: number;
+  pageChange: (newPageNumber: number) => void;
 }) => {
   return (
     <>
@@ -28,12 +29,12 @@ const NumberBox = ({
             className={numberClassName}
             onClick={() => pageChange(pageNumber)}
           >
-            {pageNumber}
+            {HandleSeparateThreeDigits(pageNumber)}
           </span>
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default NumberBox
+export default NumberBox;

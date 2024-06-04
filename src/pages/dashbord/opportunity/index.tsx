@@ -1,5 +1,4 @@
 import { ConvertDatePersian } from "Func/DatePer2";
-import Button from "components/Button";
 import BaseTable, { TableColumnType } from "components/Table";
 import FetchData from "components/fetchData";
 import { GetPostList, PropCreatePosts } from "lib/apiOpportunity";
@@ -9,16 +8,12 @@ import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Pencil } from "heroicons-react";
 import Pagination from "components/Pagination";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
-
-export type FiltersOpportunity = {
-  ProductName?: string;
-  $createdAt?: string;
-  total?: number;
-};
+import { FiltersOpportunityType } from "./component/type";
+import FiltersOpportunity from "./component/filter";
 
 function Quotes() {
   const initialFilters = {
-    ProductName: undefined,
+    productName: "",
     $createdAt: String(new Date()),
     total: 1,
   };
@@ -26,7 +21,8 @@ function Quotes() {
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [stateUpdateOpp, setUpdateOpp] = useState<PropCreatePosts | null>(null);
-  const [filters, setFilters] = useState<FiltersOpportunity>(initialFilters);
+  const [filters, setFilters] =
+    useState<FiltersOpportunityType>(initialFilters);
   const fetchDataQuotes = async () => {
     const data = await GetPostList(filters);
     console.log("filters", filters);
@@ -48,11 +44,11 @@ function Quotes() {
     {
       title: "نام کالا",
       width: "3%",
-      key: "ProductName",
+      key: "productName",
       headerClassName: "justify-center",
       dataClassName: "text-center !font-normal",
       render: ({ currentRow }) => {
-        return <div>{currentRow?.ProductName}</div>;
+        return <div>{currentRow?.productName}</div>;
       },
     },
     {
@@ -98,7 +94,7 @@ function Quotes() {
                   images: currentRow.images,
                   location: currentRow.location,
                   price: currentRow.price,
-                  ProductName: currentRow.ProductName,
+                  productName: currentRow.productName,
                   description: currentRow.description,
                 });
                 setIsOpenModal(true);
@@ -114,12 +110,11 @@ function Quotes() {
   return (
     <>
       <div className="flex w-full ">
-        <Button
-          onClick={() => setIsOpenModal(true)}
-          className="p-2 text-lg font-medium text-white bg-red-600 rounded-lg"
-        >
-          ایجاد فرصت فروش
-        </Button>
+        <FiltersOpportunity
+          filters={filters}
+          setFilters={setFilters}
+          setIsCreateOpportunityOpenModal={setIsOpenModal}
+        />
       </div>
       <FetchData
         handleEmptyData={false}

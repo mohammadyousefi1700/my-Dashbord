@@ -2,7 +2,7 @@ import { ID } from "appwrite";
 import { account } from "appwrite.config";
 import HandleLoading from "components/Loading";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Login {
   $id?: string;
@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }: Props) => {
 
   const [Error, setError] = useState<boolean>(true);
 
+  const location = useLocation();
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchGetAccount = async () => {
       const GetAccount = account.get();
@@ -47,13 +47,13 @@ export const AuthProvider = ({ children }: Props) => {
       try {
         setError(true);
         const res = await GetAccount;
-
         setUser({
           name: res.name,
           email: res.email as string,
           password: res.password as string,
         });
-        navigate("/");
+
+        if (location.pathname === "/login" && res.$id) navigate("/");
         setError(false);
       } catch (err) {
         if (err) setError(false);
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: Props) => {
           if (res.$id) return navigate("/");
         })
         .catch((err) => {
-          console.log(err, "ss");
+          console.log(err);
         });
     } else {
       const login = account.createEmailSession(
@@ -97,7 +97,6 @@ export const AuthProvider = ({ children }: Props) => {
       const res = await account.deleteSession("current");
 
       if (res) {
-        // Assuming 'navigate' is a function to redirect the user
         navigate("/login");
       }
 

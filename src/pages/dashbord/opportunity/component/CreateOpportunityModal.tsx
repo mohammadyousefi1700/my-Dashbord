@@ -14,7 +14,6 @@ import FetchCategorySelectOption from "./FetchCategory";
 import Button from "components/Button";
 import ImageUploader from "components/ImagesComponent";
 import validatePostOpportunity from "./validate";
-import HandleLoading from "components/Loading";
 
 export type PropsModal = {
   isShow: boolean;
@@ -35,8 +34,8 @@ function OpportunityModal(props: PropsModal) {
       category: data.category,
       images: String(uploadedFile),
       location: data.location as string,
-      price: data.price as string,
-      ProductName: data.ProductName as string,
+      price: data.price?.replace(/,/g, "") as string,
+      productName: data.productName as string,
       description: data.description,
     };
     CreatePost(payload).then((res) => {
@@ -58,6 +57,13 @@ function OpportunityModal(props: PropsModal) {
     reader.readAsDataURL(file as any);
   };
 
+  const handleSprate = (event: any) => {
+    let number1 = event.replace(/,/g, "");
+    let prValue = parseInt(number1, 10).toLocaleString();
+
+    return prValue ? prValue : undefined;
+  };
+
   return (
     <Modal
       onClose={onclose}
@@ -77,7 +83,7 @@ function OpportunityModal(props: PropsModal) {
             images: dataRowUpdate?.images || "",
             location: dataRowUpdate?.location || "",
             price: dataRowUpdate?.price || "",
-            ProductName: dataRowUpdate?.ProductName || "",
+            productName: dataRowUpdate?.productName || "",
             description: dataRowUpdate?.description || "",
           }}
           onSubmit={async (values) => {
@@ -85,8 +91,6 @@ function OpportunityModal(props: PropsModal) {
           }}
         >
           {({ values, isSubmitting }) => {
-            console.log("isSubmitting", isSubmitting);
-
             return (
               <Form className="flex flex-row flex-wrap items-center gap-y-5 gap-x-5">
                 <div>
@@ -94,10 +98,10 @@ function OpportunityModal(props: PropsModal) {
                     className={inputClassName}
                     label={"نام کالا"}
                     labelProps={{ variant: "subtitle", required: true }}
-                    name="ProductName"
+                    name="productName"
                     placeholder="مثلا موبایل"
                   />
-                  <FormikErrorMessage name="ProductName" />
+                  <FormikErrorMessage name="productName" />
                 </div>
                 <div>
                   <FormikInput
@@ -107,6 +111,7 @@ function OpportunityModal(props: PropsModal) {
                     label="قیمت"
                     name="price"
                     placeholder="مثال 10,000"
+                    value={values.price && handleSprate(values.price)}
                   />
                   <FormikErrorMessage name="price" />
                 </div>
@@ -145,9 +150,8 @@ function OpportunityModal(props: PropsModal) {
                 <Button
                   loading={isSubmitting}
                   disabled={
-                    isSubmitting &&
-                    values.ProductName &&
-                    // values.category &&
+                    !isSubmitting &&
+                    values.productName &&
                     values.description &&
                     values.location &&
                     values.price

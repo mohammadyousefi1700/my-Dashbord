@@ -3,7 +3,7 @@ import { Link, useLocation, matchPath } from "react-router-dom";
 import classNames from "classnames";
 import DateMinute from "Func/Date/Datereturn";
 import { useState } from "react";
-import { ChevronDoubleLeft } from "heroicons-react";
+import { Calendar, ChevronDoubleLeft } from "heroicons-react";
 import { useClickAwayListener } from "components/ModalComponent/components/UseClickAwayListner";
 
 function Sidebar() {
@@ -25,7 +25,6 @@ function Sidebar() {
 
   return withClickAwayListener(
     <div
-      // style={{ width: "200px", padding: "10px" }}
       className={classNames(
         `fixed  top-0 mt-[40px]  right-0 z-[1000] flex flex-col bg-[#343a60] [height:calc(100vh-20px)]  transition-all text-xs duration-300`,
         isDrag ? "w-[252px] " : "w-[60px]"
@@ -57,25 +56,32 @@ function Sidebar() {
           </Link>
         ))}
       </div>
-      {isDrag ? (
-        <div
-          className={classNames(
-            "flex flex-col items-center justify-end h-full mb-20"
-          )}
-        >
-          <div
-            style={{ gap: "10px" }}
-            className="flex bg-[rgba(255,255,255,0.10)] rounded-lg items-center justify-center "
-          >
-            <div className="flex p-1 text-lg text-white gap-x-3 ">
+      <div
+        className={classNames(
+          "flex flex-col w-full items-start p-2 justify-end h-full mb-20"
+        )}
+      >
+        <div className="flex w-full justify-between items-center bg-[rgba(255,255,255,0.10)] rounded-lg ">
+          {isDrag ? (
+            <div className="flex items-center p-1 mt-1 text-lg text-white ">
               <DateMinute />
             </div>
-            <div style={{ padding: "12px" }} className="text-lg text-white ">
-              {dateFormatYears.format(Date.now())}
-            </div>
+          ) : null}{" "}
+          <div
+            className={`text-lg items-center mt-1  relative p-2 text-white `}
+          >
+            {isDrag ? (
+              dateFormatYears.format(Date.now())
+            ) : (
+              <>
+                <Calendar className="absolute -top-3.5 left-3 " />
+
+                {dateFormatYears.format(Date.now()).slice(6, 12)}
+              </>
+            )}
           </div>
         </div>
-      ) : null}
+      </div>
     </div>
   );
 }

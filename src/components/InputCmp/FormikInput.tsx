@@ -7,10 +7,11 @@ export type FormikInputType = BaseInputPropType & {
   name: string;
   value?: any;
   isLink?: boolean;
+  onchange?: any;
 };
 
 function FormikInput(props: FormikInputType) {
-  const { value, name, ...rest } = props;
+  const { value, onchange, name, ...rest } = props;
   const [field] = useField({ name, value });
 
   return (

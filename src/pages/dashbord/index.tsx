@@ -9,7 +9,7 @@ function Dashboard() {
       <React.Suspense>
         <Routes>
           {RootDashboard.map((item) => (
-            <Route key={item.path} path={item.path} element={item.element} />
+            <Route key={item.path} {...item} />
           ))}
         </Routes>
       </React.Suspense>
