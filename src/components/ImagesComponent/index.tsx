@@ -3,22 +3,29 @@ import Image from "./ImageUploader";
 
 type Props = {
   UploadImage: string;
-  handleUploadImage: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleUploadImage?: (e: ChangeEvent<HTMLInputElement>) => void;
   classNameImage?: string;
+  isActiveUpload?: boolean;
 };
-function ImageUploader(props: Props) {
-  const { UploadImage, handleUploadImage, classNameImage } = props;
+function ImageAndUploader(props: Props) {
+  const { UploadImage, handleUploadImage, classNameImage, isActiveUpload } =
+    props;
   return (
     <div className="flex flex-col">
-      <label className="self-center cursor-pointer " htmlFor="IMAGE_ID">
-        <input
-          type="file"
-          className="[display:none]"
-          onChange={handleUploadImage}
-          id="IMAGE_ID"
-          accept="image/*"
-          placeholder="upload image..."
-        />
+      <label
+        className={`self-center ${!isActiveUpload ? "cursor-pointer" : null} `}
+        htmlFor="IMAGE_ID"
+      >
+        {!isActiveUpload ? (
+          <input
+            type="file"
+            className="[display:none]"
+            onChange={handleUploadImage}
+            id="IMAGE_ID"
+            accept="image/*"
+            placeholder="upload image..."
+          />
+        ) : null}
         {UploadImage ? (
           <Image classNames={classNameImage} uploadedFile={UploadImage} />
         ) : (
@@ -34,4 +41,4 @@ function ImageUploader(props: Props) {
   );
 }
 
-export default ImageUploader;
+export default ImageAndUploader;

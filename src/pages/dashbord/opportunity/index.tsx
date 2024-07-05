@@ -1,15 +1,19 @@
 import { ConvertDatePersian } from "Func/DatePer2";
-import BaseTable, { TableColumnType } from "components/Table";
+import { TableColumnType } from "components/Table";
 import FetchData from "components/fetchData";
-import { GetPostList, PropCreatePosts } from "lib/apiOpportunity";
-import React, { useState } from "react";
-import CreateOpportunityModal from "./component/CreateOpportunityModal";
+import { deletePost, GetPostList, PropCreatePosts } from "lib/apiOpportunity";
+import { useState } from "react";
+import { CreateOpportunityModal } from "./component/CreateOpportunityModal";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
-import { Pencil } from "heroicons-react";
-import Pagination from "components/Pagination";
+import { Pencil, TrashOutline } from "heroicons-react";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 import { FiltersOpportunityType } from "./component/type";
 import FiltersOpportunity from "./component/filter";
+import ModalOnConfirm from "./component/ModalOnConfirm";
+import useMediaQuery from "components/useMediaQuery";
+import Desktop from "./component/Desktop";
+import Mobile from "./component/Mobile";
+import ImageAndUploader from "components/ImagesComponent";
 
 function Quotes() {
   const initialFilters = {
@@ -20,13 +24,13 @@ function Quotes() {
   useDocumentTitle("کوت");
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
   const [stateUpdateOpp, setUpdateOpp] = useState<PropCreatePosts | null>(null);
+  const isMobile = useMediaQuery("(min-width: 690px)");
   const [filters, setFilters] =
     useState<FiltersOpportunityType>(initialFilters);
   const fetchDataQuotes = async () => {
     const data = await GetPostList(filters);
-    console.log("filters", filters);
-
     return data;
   };
 
@@ -42,13 +46,29 @@ function Quotes() {
       ),
     },
     {
+      title: "عکس",
+      width: "3%",
+      key: "images",
+      headerClassName: "justify-center",
+      dataClassName: "text-center !font-normal",
+      render: ({ currentRow }) => {
+        return (
+          <ImageAndUploader
+            classNameImage="w-10 h-10 object-cover rounded-full"
+            isActiveUpload
+            UploadImage={currentRow.images}
+          />
+        );
+      },
+    },
+    {
       title: "نام کالا",
       width: "3%",
       key: "productName",
       headerClassName: "justify-center",
       dataClassName: "text-center !font-normal",
       render: ({ currentRow }) => {
-        return <div>{currentRow?.productName}</div>;
+        return <div className="object-cover">{currentRow?.productName}</div>;
       },
     },
     {
@@ -72,15 +92,13 @@ function Quotes() {
       headerClassName: "justify-center",
       dataClassName: "text-center !font-normal",
       render: ({ currentRow }) => {
-        // ConvertDatePersian(currentRow.$createdAt.split());
-
         return <div>{ConvertDatePersian(currentRow.$createdAt)}</div>;
       },
     },
     {
       title: "ویرایش",
-      width: "3%",
-      key: "price",
+      width: "1%",
+      key: "edit",
       headerClassName: "justify-center",
       dataClassName: "text-center !font-normal",
       render: ({ currentRow }) => {
@@ -96,11 +114,41 @@ function Quotes() {
                   price: currentRow.price,
                   productName: currentRow.productName,
                   description: currentRow.description,
+                  categoryId: currentRow.categoryId,
                 });
                 setIsOpenModal(true);
               }}
-              className="flex justify-center w-6 h-6 cursor-pointer"
+              className="flex justify-center w-6 h-6 cursor-pointer hover:-mt-2 hover:absolute hover:w-8 hover:h-8 hover:text-blue-500"
             />
+          </div>
+        );
+      },
+    },
+    {
+      title: "حذف کردن",
+      width: "1%",
+      key: "delete",
+      headerClassName: "justify-center",
+      dataClassName: "text-center !font-normal",
+      render: ({ currentRow }) => {
+        return (
+          <div
+            onClick={() => {
+              setOpenConfirmModal(true);
+              setUpdateOpp({
+                $id: currentRow.$id,
+                category: currentRow.category,
+                images: currentRow.images,
+                location: currentRow.location,
+                price: currentRow.price,
+                productName: currentRow.productName,
+                description: currentRow.description,
+                categoryId: currentRow.categoryId,
+              });
+            }}
+            className="flex justify-center w-full"
+          >
+            <TrashOutline className="flex justify-center w-6 h-6 cursor-pointer hover:-mt-2 hover:absolute hover:w-8 hover:h-8 hover:text-red-500" />
           </div>
         );
       },
@@ -121,27 +169,42 @@ function Quotes() {
         deps={[filters]}
         request={fetchDataQuotes}
       >
-        {(data) => {
+        {(data, { fetchData }) => {
           return (
             <>
-              {" "}
-              <BaseTable columns={theadTable} data={data?.documents} />;
-              <Pagination
-                current={filters.total}
-                onchange={(currentPage) => {
-                  setFilters({ ...filters, total: currentPage });
+              {isMobile ? (
+                <Desktop
+                  filters={filters}
+                  setFilters={setFilters}
+                  data={data}
+                  theadTable={theadTable}
+                />
+              ) : (
+                <Mobile data={data} />
+              )}
+              <CreateOpportunityModal
+                onclose={() => {
+                  setIsOpenModal(false);
+                  setUpdateOpp(null);
                 }}
-                total={Number(data?.total || 1) / Number(8)}
+                isShow={isOpenModal}
+                dataRowUpdate={stateUpdateOpp}
+              />
+              <ModalOnConfirm
+                onReloadTable={fetchData as any}
+                onClick={() =>
+                  deletePost(stateUpdateOpp as any).then(() =>
+                    setOpenConfirmModal(false)
+                  )
+                }
+                text="آیا عملیات حذف آیتم اجرا شود؟"
+                onclose={() => setOpenConfirmModal(false)}
+                isShow={openConfirmModal}
               />
             </>
           );
         }}
       </FetchData>
-      <CreateOpportunityModal
-        onclose={() => setIsOpenModal(false)}
-        isShow={isOpenModal}
-        dataRowUpdate={stateUpdateOpp}
-      />
     </>
   );
 }

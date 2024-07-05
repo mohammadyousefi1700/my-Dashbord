@@ -4,13 +4,13 @@ import HandleLoading from "components/Loading";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-interface Login {
+export type Login = {
   $id?: string;
   name?: string | null;
   email: string | null;
   password: string | null;
   phone?: string | null;
-}
+};
 
 interface Authentication {
   Error?: string;
@@ -103,7 +103,6 @@ export const AuthProvider = ({ children }: Props) => {
       return res;
     } catch (error) {
       console.error("Error during logout:", error);
-      // Handle the error as needed
     }
   };
   if (Error) {

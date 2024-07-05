@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  outline: none;
+}
 html {
   width: 100%;
   height: 100%;
@@ -16,8 +19,8 @@ html {
   src: url("../public/Sofia-Regular.ttf") format("truetype");
 }
 @font-face {
-  font-family: BNazanin;
-  src: url("./assets/fonts/B-NAZANIN.TTF") format("TTF");
+  font-family: "BNazanin";
+  src: url("./assets/fonts/B-NAZANIN.TTF") format("truetype");
 }
 .custom_font {
   font-family: sofia;

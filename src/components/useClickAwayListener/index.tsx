@@ -1,33 +1,37 @@
-import { useEffect, useRef, Fragment, ReactNode } from "react";
+// import { useEffect, useRef, Fragment, ReactNode } from "react";
 
-export type ClickAwayCallback = (event: MouseEvent) => void;
+// export type ClickAwayCallback = (event: MouseEvent) => void;
 
-export type ClickAwayListener = (children: ReactNode) => JSX.Element;
+// export type ClickAwayListener = (children: ReactNode) => JSX.Element;
 
-export const useClickAwayListener = (
-  callback: ClickAwayCallback
-): ClickAwayListener => {
-  const ref = useRef<HTMLDivElement>(null);
+// export const useClickAwayListener = (callback: ClickAwayCallback) => {
+//   const ref = useRef<HTMLDivElement>(null);
+//   console.log("callback", callback);
+//   console.log("ref", ref);
 
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback(event);
-      }
-    };
+//   useEffect(() => {
+//     const handleClick = (event: MouseEvent) => {
+//       console.log("ref.current", ref.current);
 
-    document.addEventListener("click", handleClick);
+//       if (ref.current && !ref.current.contains(event.target as Node)) {
+//         console.log("event", event);
 
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [callback]);
+//         callback(event);
+//       }
+//     };
 
-  return (children: ReactNode) => {
-    return (
-      <Fragment>
-        <div ref={ref}>{children}</div>
-      </Fragment>
-    );
-  };
-};
+//     document.addEventListener("click", handleClick);
+
+//     return () => {
+//       document.removeEventListener("click", handleClick);
+//     };
+//   }, [callback]);
+
+//   return (children: ReactNode) => {
+//     return (
+//       <Fragment>
+//         <div ref={ref}>{children}</div>
+//       </Fragment>
+//     );
+//   };
+// };

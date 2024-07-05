@@ -13,3 +13,10 @@ export type setFiltersTypeOpportunity = {
     React.SetStateAction<boolean>
   >;
 };
+
+export type PropsImage = {
+  uploadedFile: string | ArrayBuffer | null;
+  setUploadedFile: React.Dispatch<
+    React.SetStateAction<string | ArrayBuffer | null>
+  >;
+};

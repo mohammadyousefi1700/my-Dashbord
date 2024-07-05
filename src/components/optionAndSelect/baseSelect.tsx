@@ -72,8 +72,8 @@ export default function BaseSelect<T>(props: SelectPropTypes<T>) {
       setSelected(newSelected);
       onSelect?.(newSelected, value);
     } else {
-      setSelected(value.value);
-      onSelect?.(value.value, value);
+      setSelected(value);
+      onSelect?.(value, value);
     }
   };
 

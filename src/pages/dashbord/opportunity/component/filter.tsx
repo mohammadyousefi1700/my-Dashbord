@@ -16,8 +16,8 @@ function FiltersOpportunity(props: setFiltersTypeOpportunity) {
       </Button>
       <div className="flex my-4">
         <BaseInput
-          className="z-5 flex items-center outline-none w-[364px] h-10"
-          inputClassName="bg-white flex items-center  border-1 !border-[#E3E3E3] border-anti-flash !rounded-[50px] w-[365px] h-[38px] "
+          className="z-5 flex items-center outline-none min-w-[100px] max-w-[364px] h-10"
+          inputClassName="bg-white flex items-center  border-1 !border-[#E3E3E3] border-anti-flash !rounded-[50px] min-w-[250px] max-w-[365px] h-[38px] "
           textClassName="placeholder-gray-disable-text-button outline-none font-medium "
           placeholder="جستجوی نام کالا"
           style={{

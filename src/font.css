@@ -1,6 +1,8 @@
 @font-face {
-  font-family: bNazanin;
+  font-family: "BNazanin";
   font-style: italic;
   font-weight: 400;
-  src: url("./assets/fonts/B-NAZANIN.TTF");
+  src: url("./assets/fonts/B-NAZANIN.TTF") format("truetype"),
+    /* TTF format */ url("./assets/fonts/B-NAZANIN.woff") format("woff"),
+    /* WOFF format */ url("./assets/fonts/B-NAZANIN.woff2") format("woff2"); /* WOFF2 format */
 }

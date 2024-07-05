@@ -7,13 +7,12 @@ type BtnProps = React.DetailedHTMLProps<
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   loading?: boolean;
-  BtnClassName?: string | undefined;
+  btnClassName?: string | undefined;
 };
 export const disableClasses = "!text-white !bg-[#E2E2E2] !cursor-not-allowed";
 
 function Button(props: BtnProps) {
-  const { children, BtnClassName, leftIcon, rightIcon, loading } = props;
-  console.log("loading", loading);
+  const { children, btnClassName, leftIcon, rightIcon, loading } = props;
 
   return (
     <button
@@ -21,7 +20,7 @@ function Button(props: BtnProps) {
       disabled={props.disabled || loading}
       className={classNames(
         props.disabled && loading === true ? disableClasses : "",
-        BtnClassName
+        btnClassName
       )}
       {...props}
     >
