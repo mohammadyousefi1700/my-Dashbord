@@ -2,7 +2,6 @@ import React from "react";
 
 export type FiltersOpportunityType = {
   productName?: string;
-  $createdAt?: string;
   total?: number;
 };
 
@@ -19,4 +18,5 @@ export type PropsImage = {
   setUploadedFile: React.Dispatch<
     React.SetStateAction<string | ArrayBuffer | null>
   >;
+  onClose: () => void;
 };

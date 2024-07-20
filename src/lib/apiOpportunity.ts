@@ -54,7 +54,6 @@ export const GetPostList = async (Filter: FiltersOpportunityType) => {
       Query.startsWith("productName", String(Filter.productName)),
     ]
   );
-  console.log("data", (await data).documents);
 
   return await data;
 };

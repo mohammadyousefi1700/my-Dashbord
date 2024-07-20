@@ -3,7 +3,7 @@ import { TableColumnType } from "components/Table";
 import FetchData from "components/fetchData";
 import { deletePost, GetPostList, PropCreatePosts } from "lib/apiOpportunity";
 import { useState } from "react";
-import { CreateOpportunityModal } from "./component/CreateOpportunityModal";
+import { CreateOpportunityModal } from "./component/cmpOpportunity/CreateOpportunityModal";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Pencil, TrashOutline } from "heroicons-react";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
@@ -11,14 +11,13 @@ import { FiltersOpportunityType } from "./component/type";
 import FiltersOpportunity from "./component/filter";
 import ModalOnConfirm from "./component/ModalOnConfirm";
 import useMediaQuery from "components/useMediaQuery";
-import Desktop from "./component/Desktop";
-import Mobile from "./component/Mobile";
+import Desktop from "./component/cmpResolution/Desktop";
+import Mobile from "./component/cmpResolution/Mobile";
 import ImageAndUploader from "components/ImagesComponent";
 
 function Quotes() {
   const initialFilters = {
     productName: "",
-    $createdAt: String(new Date()),
     total: 1,
   };
   useDocumentTitle("کوت");
@@ -39,10 +38,12 @@ function Quotes() {
       title: "ردیف",
       width: "3%",
       key: "rowIndex",
-      headerClassName: "justify-center",
+      headerClassName: "justify-center rounded-lg",
       dataClassName: "text-center !font-normal",
       render: ({ currentRowIndex, currentRow }) => (
-        <div className={currentRow?.$id}>{currentRowIndex + 1}</div>
+        <div id={currentRow.length} className={"rounded-lg"}>
+          {currentRowIndex + 1}
+        </div>
       ),
     },
     {
@@ -173,16 +174,19 @@ function Quotes() {
           return (
             <>
               {isMobile ? (
-                <Desktop
-                  filters={filters}
-                  setFilters={setFilters}
-                  data={data}
-                  theadTable={theadTable}
-                />
+                <>
+                  <Desktop
+                    filters={filters}
+                    setFilters={setFilters}
+                    data={data}
+                    theadTable={theadTable}
+                  />
+                </>
               ) : (
-                <Mobile data={data} />
+                <Mobile data={data} filters={filters} setFilters={setFilters} />
               )}
               <CreateOpportunityModal
+                fetchData={fetchData}
                 onclose={() => {
                   setIsOpenModal(false);
                   setUpdateOpp(null);

@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import Image from "./ImageUploader";
 
 type Props = {
-  UploadImage: string;
+  UploadImage: any;
   handleUploadImage?: (e: ChangeEvent<HTMLInputElement>) => void;
   classNameImage?: string;
   isActiveUpload?: boolean;

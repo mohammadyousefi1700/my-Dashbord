@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: Props) => {
     };
 
     fetchGetAccount();
-  }, []);
+  }, [location.pathname, navigate]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (user?.name?.length) {
       const signup = account.create(
@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }: Props) => {
         .then((res) => {
           if (res.$id) return navigate("/");
         })
+
         .catch((err) => {
           console.log(err);
         });

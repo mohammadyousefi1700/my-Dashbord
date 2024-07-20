@@ -6,18 +6,20 @@ import { Search } from "heroicons-react";
 
 function FiltersOpportunity(props: setFiltersTypeOpportunity) {
   const { filters, setFilters, setIsCreateOpportunityOpenModal } = props;
+
   return (
     <div className="w-full ">
       <Button
+        color="red"
         onClick={() => setIsCreateOpportunityOpenModal(true)}
         className="p-2 text-lg font-medium text-white bg-red-600 rounded-lg"
       >
         ایجاد فرصت فروش
       </Button>
-      <div className="flex my-4">
+      <div className="flex w-full my-4">
         <BaseInput
-          className="z-5 flex items-center outline-none min-w-[100px] max-w-[364px] h-10"
-          inputClassName="bg-white flex items-center  border-1 !border-[#E3E3E3] border-anti-flash !rounded-[50px] min-w-[250px] max-w-[365px] h-[38px] "
+          className="z-5 flex items-center outline-none md:min-w-[400px] sm:min-w-[80px] lg:min-w-[400px] max-w-[364px] h-10"
+          inputClassName="bg-white flex items-center  border-1 !border-[#E3E3E3] border-anti-flash !rounded-[50px] md:min-w-[400px] sm:min-w-[80px] lg:min-w-[400px]  max-w-[365px] h-[38px] "
           textClassName="placeholder-gray-disable-text-button outline-none font-medium "
           placeholder="جستجوی نام کالا"
           style={{

@@ -1,20 +1,56 @@
 import { Models } from "appwrite";
 import ImageAndUploader from "components/ImagesComponent";
+import Pagination from "components/Pagination";
 import { ConvertDatePersian } from "Func/DatePer2";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
+import { useEffect, useRef } from "react";
+import { FiltersOpportunityType } from "../type";
 type Props = {
   data: Models.DocumentList<Models.Document> | null;
+  filters: FiltersOpportunityType;
+  setFilters: React.Dispatch<React.SetStateAction<FiltersOpportunityType>>;
 };
 
-function Mobile({ data }: Props) {
-  // const observer=new IntersectionObserver()
+function Mobile({ data, filters, setFilters }: Props) {
+  const sectionRefs = useRef<(HTMLDivElement | HTMLElement | null)[]>([]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log(`Section ${entry.target.id} is visible`);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.01 }
+    );
+
+    const currentRefs = sectionRefs.current;
+
+    currentRefs.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      currentRefs.forEach((section) => {
+        if (section) {
+          observer.unobserve(section);
+        }
+      });
+    };
+  }, [data]);
 
   return (
-    <div className="w-full pl-4">
-      <div className="w-full rounded-lg bg-[#cccc] p-2  overflow-y-scroll  min-h-[700px]">
+    <div id="scroll" className="w-full pl-4 max-h-[87vh]  overflow-y-scroll">
+      <div className="w-full rounded-lg bg-[#cccc] p-2   min-h-[700px]">
         {data?.documents.map((items, index) => {
           return (
             <section
+              ref={(el) => (sectionRefs.current[index] = el)}
+              id={`section_Id${index}`}
               key={index}
               className="w-full px-2 py-2 my-2 bg-white rounded-lg"
             >
@@ -52,6 +88,14 @@ function Mobile({ data }: Props) {
           );
         })}
       </div>
+      <Pagination
+        className="mr-1"
+        current={filters.total}
+        onchange={(currentPage) => {
+          setFilters({ ...filters, total: currentPage });
+        }}
+        total={Number(data?.total || 1) / Number(8)}
+      />
     </div>
   );
 }
