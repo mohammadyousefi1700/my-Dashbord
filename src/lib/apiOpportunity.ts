@@ -49,6 +49,7 @@ export const GetPostList = async (Filter: FiltersOpportunityType) => {
     "65bea692defb4ac174b5",
     "65ca909e17dbfeda3482",
     [
+      Query.orderDesc("$createdAt"),
       Query.limit(8),
       Query.offset(Filter.total as number),
       Query.startsWith("productName", String(Filter.productName)),

@@ -3,6 +3,7 @@ import React from "react";
 export type FiltersOpportunityType = {
   productName?: string;
   total?: number;
+  fetchData?: () => void;
 };
 
 export type setFiltersTypeOpportunity = {

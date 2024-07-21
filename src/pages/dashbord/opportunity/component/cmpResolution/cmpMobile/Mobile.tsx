@@ -4,21 +4,29 @@ import Pagination from "components/Pagination";
 import { ConvertDatePersian } from "Func/DatePer2";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { useEffect, useRef } from "react";
-import { FiltersOpportunityType } from "../type";
+import { FiltersOpportunityType } from "../../type";
+import { PropCreatePosts } from "lib/apiOpportunity";
 type Props = {
   data: Models.DocumentList<Models.Document> | null;
   filters: FiltersOpportunityType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersOpportunityType>>;
+  setOpenConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setUpdateOpp?: React.Dispatch<React.SetStateAction<PropCreatePosts | null>>;
 };
 
-function Mobile({ data, filters, setFilters }: Props) {
+function Mobile({
+  data,
+  filters,
+  setFilters,
+  setOpenConfirmModal,
+  setUpdateOpp,
+}: Props) {
   const sectionRefs = useRef<(HTMLDivElement | HTMLElement | null)[]>([]);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log(`Section ${entry.target.id} is visible`);
             observer.unobserve(entry.target);
           }
         });
