@@ -58,6 +58,7 @@ function Quotes() {
                 </>
               ) : (
                 <Mobile
+                  setIsOpenModal={setIsOpenModal}
                   setOpenConfirmModal={setOpenConfirmModal}
                   setUpdateOpp={setUpdateOpp}
                   data={data}

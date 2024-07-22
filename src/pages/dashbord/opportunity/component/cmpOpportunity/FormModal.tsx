@@ -19,7 +19,6 @@ function FormModal(props: PropsImage) {
 
   const { values, setFieldValue, isSubmitting } =
     useFormikContext<PropCreatePostsFormik>();
-  console.log("isSubmitting", isSubmitting);
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];

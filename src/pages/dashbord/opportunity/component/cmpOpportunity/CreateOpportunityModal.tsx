@@ -25,7 +25,6 @@ export const CreateOpportunityModal = (props: PropsModal) => {
     null
   );
 
-  // Load the initial image if dataRowUpdate is provided
   useEffect(() => {
     if (dataRowUpdate) {
       setUploadedFile(dataRowUpdate.images as any);
@@ -36,7 +35,7 @@ export const CreateOpportunityModal = (props: PropsModal) => {
 
   const postNewOpportunity = async (data: PropCreatePosts) => {
     const payload = {
-      $id: data.$id || ID.unique(), // Generate a unique ID if needed
+      $id: data.$id || ID.unique(),
       category: data.category,
       categoryId: data.categoryId,
       images: String(uploadedFile),
@@ -57,8 +56,8 @@ export const CreateOpportunityModal = (props: PropsModal) => {
       if (res && (res.$createdAt || res.$updatedAt)) {
         onclose();
         toast.success("عملیات با موفقیت انجام شد.");
-        if (fetchData) fetchData(); // Fetch new data if necessary
-        setUploadedFile(null); // Reset uploaded file state
+        if (fetchData) fetchData();
+        setUploadedFile(null);
       }
     } catch (error) {
       console.error("Error posting opportunity:", error);
@@ -95,13 +94,13 @@ export const CreateOpportunityModal = (props: PropsModal) => {
             productName: dataRowUpdate?.productName || "",
             description: dataRowUpdate?.description || "",
             categoryLabel: dataRowUpdate?.category,
-            $id: dataRowUpdate?.$id || "", // Ensure to include ID for updates
+            $id: dataRowUpdate?.$id || "",
           }}
           onSubmit={async (values) => {
             await postNewOpportunity({
               productName: values.productName,
               category: values.categoryLabel,
-              categoryId: values.category.value, // Use value for the category ID
+              categoryId: values.category.value,
               description: values.description,
               images: values.images,
               location: values.location,
@@ -110,13 +109,11 @@ export const CreateOpportunityModal = (props: PropsModal) => {
             });
           }}
         >
-          {({ errors, touched }) => (
-            <FormModal
-              onClose={onclose}
-              uploadedFile={uploadedFile}
-              setUploadedFile={setUploadedFile} // Pass the setUploadedFile correctly
-            />
-          )}
+          <FormModal
+            onClose={onclose}
+            uploadedFile={uploadedFile}
+            setUploadedFile={setUploadedFile}
+          />
         </Formik>
       </div>
     </Modal>
