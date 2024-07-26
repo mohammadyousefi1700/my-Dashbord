@@ -10,6 +10,7 @@ type Props = {
 function ImageAndUploader(props: Props) {
   const { UploadImage, handleUploadImage, classNameImage, isActiveUpload } =
     props;
+
   return (
     <div className="flex flex-col">
       <label

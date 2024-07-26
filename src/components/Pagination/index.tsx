@@ -21,7 +21,16 @@ const Pagination = (
   props: PropType &
     DetailedHTMLProps<AllHTMLAttributes<HTMLDivElement>, HTMLDivElement>
 ) => {
-  const { total, current, onchange, className, theme = "purple" } = props;
+  const {
+    boxNumberClassName2,
+    arrowsClassName2,
+    total,
+    current,
+    onchange,
+    className,
+    theme = "purple",
+    numberClassName2,
+  } = props;
 
   const [currentPage, setCurrentPage] = useState<number>(current || 1);
   const pageNumbers = Array.from(Array(Math.ceil(total) + 1).keys());
@@ -92,7 +101,7 @@ const Pagination = (
             <span
               style={{ backgroundColor: `${parseStartArrowColor()}` }}
               className={classNames(
-                arrowsClassName
+                arrowsClassName2 ? arrowsClassName2 : arrowsClassName
                 // `${currentPage === 1 ? 'bg-[#C0B8E3]' : 'bg-[#5F41B2]'}`
               )}
               onClick={() => changePage(currentPage - 1)}
@@ -107,7 +116,9 @@ const Pagination = (
                     .slice(1, 2)
                     .map((pageNumber: number, index: number) => (
                       <NumberBox
+                        boxNumberClassName2={boxNumberClassName2}
                         key={index}
+                        numberClassName2={numberClassName2}
                         pageNumber={pageNumber}
                         currentPage={currentPage}
                         pageChange={() => {
@@ -118,13 +129,23 @@ const Pagination = (
                 : null}
               {/*--------------------------dots-------------------*/}
               {currentPage <= 4 ? null : (
-                <div className={classNames(boxNumberClassName)}>...</div>
+                <div
+                  className={classNames(
+                    boxNumberClassName2
+                      ? boxNumberClassName2
+                      : boxNumberClassName
+                  )}
+                >
+                  ...
+                </div>
               )}
               {/*--------------------------middle-------------------*/}
               {handleNumbersBetweenDots().map(
                 (pageNumber: number, index: number) => (
                   <NumberBox
+                    boxNumberClassName2={boxNumberClassName2}
                     key={index}
+                    numberClassName2={numberClassName2}
                     pageNumber={pageNumber}
                     currentPage={currentPage}
                     pageChange={() => {
@@ -135,7 +156,15 @@ const Pagination = (
               )}
               {/*--------------------------dots-------------------*/}
               {pageNumbers.length - currentPage <= 4 ? null : (
-                <div className={classNames(boxNumberClassName)}>...</div>
+                <div
+                  className={classNames(
+                    boxNumberClassName2
+                      ? boxNumberClassName2
+                      : boxNumberClassName
+                  )}
+                >
+                  ...
+                </div>
               )}
               {/*--------------------------end-------------------*/}
               {currentPage >= pageNumbers.length - 3
@@ -144,6 +173,8 @@ const Pagination = (
                     .slice(pageNumbers.length - 1)
                     .map((pageNumber: number, index) => (
                       <NumberBox
+                        boxNumberClassName2={boxNumberClassName2}
+                        numberClassName2={numberClassName2}
                         key={index}
                         pageNumber={pageNumber}
                         currentPage={currentPage}
@@ -157,7 +188,7 @@ const Pagination = (
             <span
               style={{ backgroundColor: `${parseEndArrowColor()}` }}
               className={classNames(
-                arrowsClassName
+                arrowsClassName2 ? arrowsClassName2 : arrowsClassName
                 // `${currentPage === total ? 'bg-[#C0B8E3]' : 'bg-[#5F41B2]'}`
               )}
               onClick={() => changePage(currentPage + 1)}

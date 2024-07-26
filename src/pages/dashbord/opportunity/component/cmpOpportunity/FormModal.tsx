@@ -9,7 +9,6 @@ import ImageUploader from "components/ImagesComponent";
 import Button from "components/Button";
 import classNames from "classnames";
 
-// متغیر سراسری برای حفظ وضعیت هشدار
 let hasAlerted = false;
 const divHeight = "h-20";
 function FormModal(props: PropsImage) {
@@ -25,8 +24,12 @@ function FormModal(props: PropsImage) {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setUploadedFile(reader.result);
+      const result = reader.result;
+
+      setUploadedFile(result);
+      setFieldValue("images", result);
     };
+
     return reader.readAsDataURL(file as any);
   };
 
@@ -123,8 +126,10 @@ function FormModal(props: PropsImage) {
 
         <div className="h-20 mr-12">
           <ImageUploader
-            handleUploadImage={handleUploadImage}
-            UploadImage={uploadedFile as string}
+            handleUploadImage={(e) => {
+              handleUploadImage(e);
+            }}
+            UploadImage={uploadedFile}
           />
         </div>
       </div>

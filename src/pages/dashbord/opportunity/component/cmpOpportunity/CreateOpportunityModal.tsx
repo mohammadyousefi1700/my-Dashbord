@@ -1,12 +1,11 @@
 import Modal from "components/ModalComponent";
 import {
+  CreatePost,
   PropCreatePosts,
   PropCreatePostsFormik,
   UpdateOpportunity,
 } from "lib/apiOpportunity";
-import React, { useEffect, useState } from "react";
-import { database } from "appwrite.config";
-import { ID } from "appwrite";
+import { useEffect, useState } from "react";
 import { Formik } from "formik";
 import validatePostOpportunity from "../validate";
 import FormModal from "./FormModal";
@@ -24,6 +23,7 @@ export const CreateOpportunityModal = (props: PropsModal) => {
   const [uploadedFile, setUploadedFile] = useState<string | ArrayBuffer | null>(
     null
   );
+  console.log("dataRowUpdate", dataRowUpdate);
 
   useEffect(() => {
     if (dataRowUpdate) {
@@ -35,20 +35,18 @@ export const CreateOpportunityModal = (props: PropsModal) => {
 
   const postNewOpportunity = async (data: PropCreatePosts) => {
     const payload = {
-      $id: data.$id || ID.unique(),
-      category: data.category,
-      categoryId: data.categoryId,
-      images: String(uploadedFile),
-      location: data.location as string,
+      description: data.description,
+      location: data.location,
       price: data.price?.replace(/,/g, "") as string,
-      productName: data.productName as string,
-      description: data.description as string,
+      images: data.images,
+      productName: data.productName,
+      category: data.category,
     };
 
     try {
       let res;
       if (data.$id) {
-        res = await UpdateOpportunity(payload as any);
+        res = await UpdateOpportunity(payload, data.$id);
       } else {
         res = await CreatePost(payload);
       }
@@ -56,21 +54,12 @@ export const CreateOpportunityModal = (props: PropsModal) => {
       if (res && (res.$createdAt || res.$updatedAt)) {
         onclose();
         toast.success("عملیات با موفقیت انجام شد.");
-        if (fetchData) fetchData();
+        if (fetchData) setTimeout(() => fetchData(), 1000);
         setUploadedFile(null);
       }
     } catch (error) {
       console.error("Error posting opportunity:", error);
     }
-  };
-
-  const CreatePost = async (data: PropCreatePosts) => {
-    return await database.createDocument(
-      "65bea692defb4ac174b5",
-      "65ca909e17dbfeda3482",
-      ID.unique(),
-      data
-    );
   };
 
   return (
@@ -86,23 +75,24 @@ export const CreateOpportunityModal = (props: PropsModal) => {
           initialValues={{
             category: {
               label: dataRowUpdate?.category || "",
-              value: dataRowUpdate?.categoryId || "",
+              value: dataRowUpdate?.categoryId?.value || "",
             },
-            images: dataRowUpdate?.images || ("" as any),
+            images: dataRowUpdate?.images || null,
             location: dataRowUpdate?.location || "",
             price: dataRowUpdate?.price || "",
             productName: dataRowUpdate?.productName || "",
             description: dataRowUpdate?.description || "",
             categoryLabel: dataRowUpdate?.category,
             $id: dataRowUpdate?.$id || "",
+            categoryId: dataRowUpdate?.categoryId?.value || "",
           }}
           onSubmit={async (values) => {
             await postNewOpportunity({
               productName: values.productName,
               category: values.categoryLabel,
-              categoryId: values.category.value,
+              categoryId: values.category as any,
               description: values.description,
-              images: values.images,
+              images: values?.images as any,
               location: values.location,
               price: values.price,
               $id: values.$id,

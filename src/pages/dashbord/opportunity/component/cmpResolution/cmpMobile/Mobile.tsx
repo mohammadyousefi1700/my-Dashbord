@@ -69,7 +69,8 @@ function Mobile({
         })}
       </div>
       <Pagination
-        className="mr-1"
+        numberClassName2="w-6 leading-2 px-2"
+        boxNumberClassName2="w-6 leading-2"
         current={filters.total}
         onchange={(currentPage) => {
           setFilters({ ...filters, total: currentPage });

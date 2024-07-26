@@ -6,9 +6,9 @@ import { FiltersOpportunityType } from "../../type";
 import "../../../../../../index.css";
 import { Pencil, TrashOutline } from "heroicons-react";
 import { PropCreatePosts } from "lib/apiOpportunity";
-import ImageAndUploader from "components/ImagesComponent";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { ConvertDatePersian } from "Func/DatePer2";
+import Image from "components/ImagesComponent/ImageUploader";
 type Props = {
   setUpdateOpp: React.Dispatch<React.SetStateAction<PropCreatePosts | null>>;
   data: Models.DocumentList<Models.Document> | null;
@@ -46,10 +46,10 @@ function Desktop({
       dataClassName: "text-center !font-normal",
       render: ({ currentRow }) => {
         return (
-          <ImageAndUploader
-            classNameImage="w-10 h-10 object-cover rounded-full"
-            isActiveUpload
-            UploadImage={currentRow.images}
+          <Image
+            alt={"image not exist"}
+            classNames="w-10 h-10 object-cover rounded-full"
+            uploadedFile={currentRow.images}
           />
         );
       },

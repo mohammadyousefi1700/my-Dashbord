@@ -81,7 +81,7 @@ function Quotes() {
                   deletePost(stateUpdateOpp as any).then((res) => {
                     setOpenConfirmModal(false);
                     if (res) {
-                      return fetchData;
+                      return setTimeout(() => fetchData, 1000);
                     }
                   })
                 }

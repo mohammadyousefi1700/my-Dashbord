@@ -9,42 +9,23 @@ export type PropCreatePosts = {
   images?: string;
   location?: string;
   category?: string;
-  categoryId?: string;
+  categoryId?: { label: string; value: string };
   price?: string;
   $id?: string;
 };
 export type PropCreatePostsFormik = {
   productName: string;
   description: string;
-  images: string;
+  images?: string | null;
   location: string;
   category: { label?: string; value: string };
   price: string;
   $id?: string;
   categoryLabel?: string;
+  categoryId?: string;
 };
-// export type PropCreatePosts3 = {
-//   productName: string;
-//   description?: string;
-//   images: string;
-//   location: string;
-//   category: { label?: string; value: string };
-//   price: string;
-//   $id?: string;
-// };
-// export type PropsGetOpp = {
-//   $id?: string;
-//   productName?: string;
-//   description?: string;
-//   images?: string;
-//   location?: string;
-//   category?: any;
-//   categoryId?: any;
-//   price?: string;
-// };
-export const GetPostList = async (Filter: FiltersOpportunityType) => {
-  console.log("Filter", Filter);
 
+export const GetPostList = async (Filter: FiltersOpportunityType) => {
   const data = database.listDocuments(
     "65bea692defb4ac174b5",
     "65ca909e17dbfeda3482",
@@ -65,18 +46,6 @@ export const CreatePost = async (data: PropCreatePosts) => {
     ID.unique(),
     data
   );
-  // const create = await database.createDocument(
-  //   "65bea692defb4ac174b5",
-  //   "65ca909e17dbfeda3482",
-  //   ID.unique(),
-  //   data,
-  //   permissions: [
-  //     Permission.update(Role.user(userID)),
-  //     Permission.read(Role.users()),
-  //     Permission.read(Role.guests())
-  // ]
-  // );
-  // return create;
 };
 export const deletePost = async (data: PropCreatePosts) => {
   const Postdata = await database.deleteDocument(
@@ -86,15 +55,14 @@ export const deletePost = async (data: PropCreatePosts) => {
   );
   return Postdata;
 };
-export const UpdateOpportunity = async (data: PropCreatePosts) => {
-  console.log("data.$idaa", data.$id);
+export const UpdateOpportunity = async (data: PropCreatePosts, id: string) => {
+  console.log("dataUp", data);
 
   const UpdateOpp = await database.updateDocument(
     "65bea692defb4ac174b5",
     "65ca909e17dbfeda3482",
-    data.$id as string,
+    id,
     {
-      categoryId: data.categoryId,
       productName: data.productName,
       description: data.description,
       images: data.images,

@@ -1,5 +1,5 @@
 import { Models } from "appwrite";
-import ImageAndUploader from "components/ImagesComponent";
+import Image from "components/ImagesComponent/ImageUploader";
 import { ConvertDatePersian } from "Func/DatePer2";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Pencil, TrashOutline } from "heroicons-react";
@@ -37,10 +37,9 @@ const Section = ({
           {ConvertDatePersian(items.$createdAt)}
         </span>
       </span>
-      <ImageAndUploader
-        classNameImage="w-20 h-20 object-cover rounded-full"
-        isActiveUpload
-        UploadImage={items.images}
+      <Image
+        uploadedFile={items.images}
+        classNames="w-20 h-20 mx-auto object-cover rounded-full"
       />
       <div className="w-full">
         <div className="flex min-w-[200px] truncate justify-between   ">
