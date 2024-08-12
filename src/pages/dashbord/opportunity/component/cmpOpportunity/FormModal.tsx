@@ -19,8 +19,6 @@ function FormModal(props: PropsImage) {
   const { values, setFieldValue, isSubmitting } =
     useFormikContext<PropCreatePostsFormik>();
 
-  console.log("values", values);
-
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
 
@@ -108,13 +106,9 @@ function FormModal(props: PropsImage) {
         <div className={classNames(divHeight, "mt-4")}>
           <FormikSelect
             renderValue={(e) => {
-              console.log("e", e?.label);
-
               return e?.label ? e.label : values.categoryLabel;
             }}
             onSelect={async (e) => {
-              console.log(e);
-
               await setFieldValue(
                 "category",
 

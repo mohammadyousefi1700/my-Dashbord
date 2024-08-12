@@ -56,8 +56,6 @@ export const deletePost = async (data: PropCreatePosts) => {
   return Postdata;
 };
 export const UpdateOpportunity = async (data: PropCreatePosts, id: string) => {
-  console.log("dataUp", data);
-
   const UpdateOpp = await database.updateDocument(
     "65bea692defb4ac174b5",
     "65ca909e17dbfeda3482",
