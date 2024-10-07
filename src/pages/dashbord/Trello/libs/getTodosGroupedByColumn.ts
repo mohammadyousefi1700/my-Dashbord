@@ -8,8 +8,11 @@ export const getTodosGroupedByColumn = async () => {
     "65bea7a66c63686afbef"
   );
   const todos = data.documents;
+  console.log("data", data);
 
   const columns = todos.reduce((acc, todo) => {
+    const ordersProductArray = JSON.parse(todo.ordersProduct);
+
     if (!acc.get(todo.status)) {
       acc.set(todo.status, {
         id: todo.status,
@@ -17,6 +20,14 @@ export const getTodosGroupedByColumn = async () => {
       });
     }
     acc.get(todo.status)!.todos.push({
+      ordersProduct: ordersProductArray.map((order: any) => ({
+        description: order.description,
+        location: order.location,
+        price: order.price,
+        images: order.images,
+        productName: order.productName,
+        qty: order.qty,
+      })),
       $id: todo.$id,
       $updatedAt: todo.$updatedAt,
       productName: todo.productName,
