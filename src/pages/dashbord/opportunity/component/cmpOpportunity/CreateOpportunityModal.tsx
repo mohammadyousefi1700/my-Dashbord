@@ -23,7 +23,6 @@ export const CreateOpportunityModal = (props: PropsModal) => {
   const [uploadedFile, setUploadedFile] = useState<string | ArrayBuffer | null>(
     null
   );
-  console.log("dataRowUpdate", dataRowUpdate);
 
   useEffect(() => {
     if (dataRowUpdate) {

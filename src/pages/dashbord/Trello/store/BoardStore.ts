@@ -31,19 +31,19 @@ export const useBoardStore = create<BoardState>((set) => ({
 
   setImage: (image: File | null) => set({ image }),
   updateTodoInDB: async (todo, columnId) => {
+    console.log(todo.$id, columnId);
+    console.log(JSON.stringify(todo.ordersProduct));
+
     await database.updateDocument(
       "65bea692defb4ac174b5",
       "65bea7a66c63686afbef",
       todo.$id,
       {
-        ordersProduct: todo.ordersProduct,
+        ordersProduct: [JSON.stringify(todo.ordersProduct)],
         CustomerName: todo.CustomerName,
-        productName: todo.productName,
-        number: todo.number,
-        stateProduct: todo.stateProduct,
-        price: todo.price,
+        totalPrice: todo.totalPrice,
         status: columnId,
-        images: todo.images,
+        seller: todo.seller,
       }
     );
   },

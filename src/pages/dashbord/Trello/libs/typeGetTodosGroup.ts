@@ -1,6 +1,6 @@
-interface Board {
+export type Board = {
   columns: Map<TypedColumn, ColumnType>;
-}
+};
 
 export enum TypedColumn {
   PaymentAndOrderFinalizationStatus = "Payment and order finalization",
@@ -21,14 +21,9 @@ export type Todo = {
   $updatedAt?: string;
   status: TypedColumn;
   number?: number;
-  price?: string;
+  seller?: string;
+  totalPrice?: string;
   productName?: string;
   CustomerName?: string;
-  stateProduct?: boolean;
-  images: string;
+  images?: string;
 };
-
-interface Image {
-  bucketId: string;
-  fileId: string;
-}

@@ -22,7 +22,6 @@ export const getTodosGroupedByColumn = async () => {
     acc.get(todo.status)!.todos.push({
       ordersProduct: ordersProductArray.map((order: any) => ({
         description: order.description,
-        location: order.location,
         price: order.price,
         images: order.images,
         productName: order.productName,
@@ -30,11 +29,9 @@ export const getTodosGroupedByColumn = async () => {
       })),
       $id: todo.$id,
       $updatedAt: todo.$updatedAt,
-      productName: todo.productName,
-      number: todo.number,
-      stateProduct: todo.stateProduct,
-      images: todo.images,
-      price: todo.price,
+      seller: todo.seller,
+      // number: todo.number,
+      totalPrice: todo.totalPrice,
       CustomerName: todo.CustomerName,
       status: todo.status,
     });
@@ -65,7 +62,7 @@ export const getTodosGroupedByColumn = async () => {
     )
   );
   const board: Board = {
-    columns: sortedColumns,
+    columns: sortedColumns as any,
   };
   return board;
 };

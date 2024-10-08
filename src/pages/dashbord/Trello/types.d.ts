@@ -10,24 +10,26 @@ export enum TypedColumn {
   OrderCompletions = "Order completion",
 }
 
+export type Todo = {
+  ordersProduct?: {
+    description: string;
+    price: string;
+    images: string;
+    productName: string;
+    qty: number;
+  }[];
+  $id: string;
+  $updatedAt?: string;
+  status: TypedColumn;
+  seller?: string;
+  CustomerName?: string;
+  isProductActive?: boolean;
+  totalPrice?: string;
+};
 export type ColumnType = {
   id: string;
   todos: Todo[];
 };
-
-export type Todo = {
-  ordersProduct?: string[];
-  $id: string;
-  $updatedAt?: string;
-  status: TypedColumn;
-  number?: number;
-  price?: string;
-  productName?: string;
-  CustomerName?: string;
-  stateProduct?: boolean;
-  images: string;
-};
-
 interface Image {
   bucketId: string;
   fileId: string;

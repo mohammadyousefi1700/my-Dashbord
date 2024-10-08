@@ -12,19 +12,6 @@ type Props = {
 };
 
 function Column({ id, index, todos }: Props) {
-  const [searchString] = useBoardStore((state) => [
-    state.searchString,
-    // state.setNewTaskType,
-  ]);
-
-  const numbersState = !searchString
-    ? todos.length
-    : todos.filter(
-        (todo) =>
-          todo.CustomerName ||
-          (todo.productName as string).includes(searchString.toLowerCase())
-      ).length;
-
   const idTodoColumnText: {
     [key in
       | TypedColumn.PaymentAndOrderFinalizationStatus
@@ -61,9 +48,9 @@ function Column({ id, index, todos }: Props) {
                 <h2 className="py-2">
                   {idTodoColumnText[id]}
                   <span>
-                    {` (
-                    ${HandleSeparateThreeDigits(numbersState)}
-                 ) `}
+                    {/* {` (
+                    // ${HandleSeparateThreeDigits()}
+                 ) `} */}
                   </span>
                 </h2>
                 <div className="space-y-2">
@@ -75,6 +62,8 @@ function Column({ id, index, todos }: Props) {
                     //   )
                     // )
                     //   return null;
+                    console.log("todo", todo);
+
                     return (
                       <Draggable
                         key={todo.$id}
