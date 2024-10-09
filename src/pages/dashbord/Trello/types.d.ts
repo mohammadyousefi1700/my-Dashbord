@@ -19,6 +19,7 @@ export type Todo = {
     qty: number;
   }[];
   $id: string;
+  customerAddress?: string;
   $updatedAt?: string;
   status: TypedColumn;
   seller?: string;

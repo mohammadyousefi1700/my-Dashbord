@@ -31,6 +31,7 @@ export const getTodosGroupedByColumn = async () => {
       $updatedAt: todo.$updatedAt,
       seller: todo.seller,
       // number: todo.number,
+      customerAddress: todo.customerAddress,
       totalPrice: todo.totalPrice,
       CustomerName: todo.CustomerName,
       status: todo.status,

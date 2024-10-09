@@ -22,6 +22,7 @@ export type Todo = {
   status: TypedColumn;
   number?: number;
   seller?: string;
+  customerAddress: string;
   totalPrice?: string;
   productName?: string;
   CustomerName?: string;

@@ -1,8 +1,6 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import TodoCard from "./TodoCard";
-import { useBoardStore } from "../store/BoardStore";
-import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Todo, TypedColumn } from "../types";
 
 type Props = {
@@ -11,22 +9,22 @@ type Props = {
   index: number;
 };
 
-function Column({ id, index, todos }: Props) {
-  const idTodoColumnText: {
-    [key in
-      | TypedColumn.PaymentAndOrderFinalizationStatus
-      | TypedColumn.AwaitingOrderConfirmation
-      | TypedColumn.OrderConfirmed
-      | TypedColumn.TheOrderWasSent
-      | TypedColumn.OrderCompletions]: string;
-  } = {
-    "Payment and order finalization": "پرداخت و نهایی کردن سفارش",
-    "Awaiting order confirmation": "در انتظار تایید سفارش",
-    "Order confirmed": "تایید سفارش",
-    "The order was sent": "سفارش ارسال شد",
-    "Order completion": "تکمیل سفارش",
-  };
+export const idTodoColumnText: {
+  [key in
+    | TypedColumn.PaymentAndOrderFinalizationStatus
+    | TypedColumn.AwaitingOrderConfirmation
+    | TypedColumn.OrderConfirmed
+    | TypedColumn.TheOrderWasSent
+    | TypedColumn.OrderCompletions]: string;
+} = {
+  "Payment and order finalization": "پرداخت و نهایی کردن سفارش",
+  "Awaiting order confirmation": "در انتظار تایید سفارش",
+  "Order confirmed": "تایید سفارش",
+  "The order was sent": "سفارش ارسال شد",
+  "Order completion": "تکمیل سفارش",
+};
 
+function Column({ id, index, todos }: Props) {
   return (
     <Draggable isDragDisabled={true} draggableId={id} index={index}>
       {(provided) => (
