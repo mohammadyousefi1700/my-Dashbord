@@ -21,4 +21,4 @@ function UserSvg() {
   );
 }
 
-export default UserSvg;
+export default React.memo(UserSvg);

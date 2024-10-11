@@ -46,7 +46,12 @@ function TodoCard({
           محل تحویل کالا : {todo.customerAddress}
         </p>
       </div>
-      <Link to={`/detail/${todo.$id}`}>جزئیات</Link>
+      <Link
+        className="p-2 text-lg font-semibold text-white bg-red-600 rounded-lg"
+        to={`/detail/${todo.$id}`}
+      >
+        جزئیات سفارش
+      </Link>
     </div>
   );
 }

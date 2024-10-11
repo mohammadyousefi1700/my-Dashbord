@@ -149,7 +149,7 @@ function Desktop({
   ];
 
   return (
-    <div className="max-h-[80vh] px-4 overflow-y-scroll " id="scroll">
+    <div className="px-4 overflow-y-hidden ">
       <BaseTable columns={theadTable} data={data?.documents} />
       <Pagination
         current={filters.total}

@@ -26,7 +26,7 @@ function Sidebar() {
   return withClickAwayListener(
     <div
       className={classNames(
-        `fixed  top-0 mt-[40px]  right-0 z-[1000] flex flex-col bg-[#343a60] [height:calc(100vh-20px)]  transition-all text-xs duration-300`,
+        `fixed  top-0 mt-[40px]  print:hidden right-0 z-[1000] flex flex-col bg-[#343a60] [height:calc(100vh-20px)]  transition-all text-xs duration-300`,
         isDrag ? "w-[252px] " : "w-[60px]"
       )}
     >

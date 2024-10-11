@@ -52,7 +52,7 @@ function Mobile({
   }, [data]);
 
   return (
-    <div id="scroll" className="w-full pl-4 max-h-[87vh]  overflow-y-scroll">
+    <div id="scroll" className="w-full pl-4 max-h-[87vh]  ">
       <div className="w-full rounded-lg bg-[#cccc] p-2   min-h-[700px]">
         {data?.documents.map((items, index) => {
           return (
@@ -61,7 +61,7 @@ function Mobile({
               setOpenConfirmModal={setOpenConfirmModal}
               setUpdateOpp={setUpdateOpp}
               index={index}
-              key={index}
+              key={items.$id}
               items={items}
               sectionRefs={sectionRefs}
             />

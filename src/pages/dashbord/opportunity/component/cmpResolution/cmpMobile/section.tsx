@@ -26,7 +26,7 @@ const Section = ({
     <section
       ref={(el) => (sectionRefs.current[index] = el)}
       id={`section_Id${index}`}
-      key={index}
+      key={items.$id}
       className="w-full px-2 py-2 my-2 bg-white rounded-lg"
     >
       <span className="flex">
