@@ -53,7 +53,7 @@ export const RootDashboard: RouteType[] = [
     ),
   },
   {
-    path: "/detail/:id",
+    path: "order/detail/:id",
     element: (
       <>
         <Detail />{" "}

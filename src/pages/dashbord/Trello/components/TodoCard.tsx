@@ -47,8 +47,8 @@ function TodoCard({
         </p>
       </div>
       <Link
-        className="p-2 text-lg font-semibold text-white bg-red-600 rounded-lg"
-        to={`/detail/${todo.$id}`}
+        className="p-1 text-lg font-semibold text-white bg-red-600 rounded-lg xl:p-2 lg:p-1 md:p-1"
+        to={`order/detail/${todo.$id}`}
       >
         جزئیات سفارش
       </Link>
