@@ -5,6 +5,7 @@ import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Pencil, TrashOutline } from "heroicons-react";
 import { PropCreatePosts } from "lib/apiOpportunity";
 import React from "react";
+import { useLoggedInUser } from "utils/AutContext";
 type Props = {
   sectionRefs: React.MutableRefObject<(HTMLElement | HTMLDivElement | null)[]>;
   index: number;
@@ -22,6 +23,8 @@ const Section = ({
   setUpdateOpp,
   setIsOpenModal,
 }: Props) => {
+  const { user } = useLoggedInUser();
+
   return (
     <section
       ref={(el) => (sectionRefs.current[index] = el)}
@@ -59,6 +62,7 @@ const Section = ({
             onClick={() => {
               setOpenConfirmModal(true);
               setUpdateOpp?.({
+                saleProvider: user?.name as string,
                 $id: items.$id,
                 category: items.category,
                 images: items.images,
@@ -76,6 +80,7 @@ const Section = ({
           <span
             onClick={() => {
               setUpdateOpp?.({
+                saleProvider: user?.name as string,
                 $id: items.$id,
                 category: items.category,
                 images: items.images,

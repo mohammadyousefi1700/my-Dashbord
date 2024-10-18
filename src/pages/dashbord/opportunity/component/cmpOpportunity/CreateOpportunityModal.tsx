@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import validatePostOpportunity from "../validate";
 import FormModal from "./FormModal";
 import { toast } from "react-toastify";
+import { useLoggedInUser } from "utils/AutContext";
 
 export type PropsModal = {
   isShow: boolean;
@@ -23,7 +24,7 @@ export const CreateOpportunityModal = (props: PropsModal) => {
   const [uploadedFile, setUploadedFile] = useState<string | ArrayBuffer | null>(
     null
   );
-
+  const { user } = useLoggedInUser();
   useEffect(() => {
     if (dataRowUpdate) {
       setUploadedFile(dataRowUpdate.images as any);
@@ -34,6 +35,7 @@ export const CreateOpportunityModal = (props: PropsModal) => {
 
   const postNewOpportunity = async (data: PropCreatePosts) => {
     const payload = {
+      saleProvider: user?.name as string,
       description: data.description,
       location: data.location,
       price: data.price?.replace(/,/g, "") as string,
@@ -95,6 +97,7 @@ export const CreateOpportunityModal = (props: PropsModal) => {
               location: values.location,
               price: values.price,
               $id: values.$id,
+              saleProvider: user?.name as string,
             });
           }}
         >

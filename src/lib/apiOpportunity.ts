@@ -8,6 +8,7 @@ export type PropCreatePosts = {
   description?: string;
   images?: string;
   location?: string;
+  saleProvider: string;
   category?: string;
   categoryId?: { label: string; value: string };
   price?: string;
@@ -61,6 +62,7 @@ export const UpdateOpportunity = async (data: PropCreatePosts, id: string) => {
     "65ca909e17dbfeda3482",
     id,
     {
+      saleProvider: data.saleProvider,
       productName: data.productName,
       description: data.description,
       images: data.images,

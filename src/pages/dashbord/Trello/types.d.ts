@@ -17,6 +17,9 @@ export type Todo = {
     images: string;
     productName: string;
     qty: number;
+    location?: string;
+    saleProvider?: string;
+    CustomerName?: string;
   }[];
   $id: string;
   customerAddress?: string;

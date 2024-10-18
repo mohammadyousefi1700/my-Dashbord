@@ -9,6 +9,7 @@ import OrderDataCart from "./components/OrderDataCart";
 import { CartOrder } from "./components/type";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Printer, PrinterOutline } from "heroicons-react";
+import { ConvertDatePersian } from "Func/DatePer2";
 
 function Detail() {
   useDocumentTitle("جزئیات سفارش");
@@ -22,7 +23,7 @@ function Detail() {
   return (
     <FetchData request={fetchData} deps={[params.id]}>
       {(data) => {
-        const dataJson: CartOrder[] = data && JSON.parse(data.ordersProduct);
+        const dataJson = data && JSON.parse(data.ordersProduct);
         console.log("dataJson", dataJson);
         return (
           <div id="scroll" className="h-[calc(100vh - 60px)] ml-7">
@@ -34,7 +35,7 @@ function Detail() {
                 بازگشت
               </Button>
               <Button
-                className="!bg-gray-400 mb-5 ml-4 text-white print:hidden"
+                className="!bg-gray-400 mb-5 ml-4 font-sans text-lg text-white print:hidden"
                 onClick={() => window.print()}
               >
                 <PrinterOutline className="w-10 h-10" />
@@ -46,17 +47,22 @@ function Detail() {
               id="scroll"
               className="w-full py-4 px-2 bg-white gap-y-4 rounded-lg  flex flex-col  border-[2px]  "
             >
-              {/* <span className="">{Intl.DateTimeFormat(data?.$createdAt}</span> */}
+              <span className="hidden mx-auto font-sans text-xl print:inline">
+                صورتحساب فروش
+              </span>
+              <span className="flex justify-end w-full text-gray-600">
+                {data && ConvertDatePersian(data.$createdAt)}
+              </span>
               {data && (
                 <CustomerInformationData
-                  seller={data.seller}
+                  seller={dataJson.map((item: any) => item.saleProvider)}
                   CustomerName={data.CustomerName}
                   customerAddress={data.customerAddress}
                 />
               )}
               <span className="text-lg font-bold "> سفارشات :</span>{" "}
               {dataJson &&
-                dataJson.map((item, index) => (
+                dataJson.map((item: any, index: number) => (
                   <OrderDataCart key={index} {...item} />
                 ))}
               <span className="text-2xl font-bold text-violet-700">

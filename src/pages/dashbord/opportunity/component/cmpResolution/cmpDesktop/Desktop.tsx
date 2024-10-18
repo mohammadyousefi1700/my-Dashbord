@@ -9,6 +9,7 @@ import { PropCreatePosts } from "lib/apiOpportunity";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { ConvertDatePersian } from "Func/DatePer2";
 import Image from "components/ImagesComponent/ImageUploader";
+import { useLoggedInUser } from "utils/AutContext";
 type Props = {
   setUpdateOpp: React.Dispatch<React.SetStateAction<PropCreatePosts | null>>;
   data: Models.DocumentList<Models.Document> | null;
@@ -25,6 +26,8 @@ function Desktop({
   setIsOpenModal,
   setOpenConfirmModal,
 }: Props) {
+  const { user } = useLoggedInUser();
+
   const theadTable: TableColumnType<any>[] = [
     {
       title: "ردیف",
@@ -100,6 +103,7 @@ function Desktop({
             <Pencil
               onClick={() => {
                 setUpdateOpp({
+                  saleProvider: user?.name as string,
                   $id: currentRow.$id,
                   category: currentRow.category,
                   images: currentRow.images,
@@ -129,6 +133,7 @@ function Desktop({
             onClick={() => {
               setOpenConfirmModal(true);
               setUpdateOpp({
+                saleProvider: user?.name as string,
                 $id: currentRow.$id,
                 category: currentRow.category,
                 images: currentRow.images,

@@ -22,6 +22,9 @@ export const getTodosGroupedByColumn = async () => {
     acc.get(todo.status)!.todos.push({
       ordersProduct: ordersProductArray.map((order: any) => ({
         description: order.description,
+        location: order.location,
+        saleProvider: order.saleProvider,
+        CustomerName: order.CustomerName,
         price: order.price,
         images: order.images,
         productName: order.productName,

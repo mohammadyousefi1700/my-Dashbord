@@ -7,6 +7,8 @@ const Quotes = lazy(() => import("../pages/dashbord/opportunity/index"));
 const LoginPage = lazy(() => import("../pages/LoginAndSignUp/index"));
 const NotFoundPage = lazy(() => import("../pages/NotFoundPage/index"));
 const Detail = lazy(() => import("../pages/dashbord/Trello/detail/index"));
+const PageSales = lazy(() => import("../pages/dashbord/pageSales"));
+
 export const Root: RouteType[] = [
   {
     path: "/",
@@ -57,6 +59,14 @@ export const RootDashboard: RouteType[] = [
     element: (
       <>
         <Detail />{" "}
+      </>
+    ),
+  },
+  {
+    path: "order/sales",
+    element: (
+      <>
+        <PageSales />
       </>
     ),
   },
