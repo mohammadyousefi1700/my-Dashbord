@@ -11,13 +11,11 @@ type Props = {
 
 export const idTodoColumnText: {
   [key in
-    | TypedColumn.PaymentAndOrderFinalizationStatus
     | TypedColumn.AwaitingOrderConfirmation
     | TypedColumn.OrderConfirmed
     | TypedColumn.TheOrderWasSent
     | TypedColumn.OrderCompletions]: string;
 } = {
-  "Payment and order finalization": "پرداخت و نهایی کردن سفارش",
   "Awaiting order confirmation": "در انتظار تایید سفارش",
   "Order confirmed": "تایید سفارش",
   "The order was sent": "سفارش ارسال شد",
@@ -43,25 +41,9 @@ function Column({ id, index, todos }: Props) {
                   snapshot.isDraggingOver ? "bg-green-200" : "bg-white/50"
                 }`}
               >
-                <h2 className="py-2">
-                  {idTodoColumnText[id]}
-                  <span>
-                    {/* {` (
-                    // ${HandleSeparateThreeDigits()}
-                 ) `} */}
-                  </span>
-                </h2>
+                <h2 className="py-2">{idTodoColumnText[id]}</h2>
                 <div className="space-y-2">
                   {todos.map((todo, index) => {
-                    // if (
-                    //   (searchString && !(todo.productName as string)) ||
-                    //   (todo.salesName as string).includes(
-                    //     searchString.toLowerCase()
-                    //   )
-                    // )
-                    //   return null;
-                    console.log("todo", todo);
-
                     return (
                       <Draggable
                         key={todo.$id}

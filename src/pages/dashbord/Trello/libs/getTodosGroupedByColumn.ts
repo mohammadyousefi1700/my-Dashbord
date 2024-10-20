@@ -8,7 +8,6 @@ export const getTodosGroupedByColumn = async () => {
     "65bea7a66c63686afbef"
   );
   const todos = data.documents;
-  console.log("data", data);
 
   const columns = todos.reduce((acc, todo) => {
     const ordersProductArray = JSON.parse(todo.ordersProduct);
@@ -44,7 +43,6 @@ export const getTodosGroupedByColumn = async () => {
   }, new Map<TypedColumn, ColumnType>());
 
   const columnTypes: TypedColumn[] = [
-    TypedColumn.PaymentAndOrderFinalizationStatus,
     TypedColumn.AwaitingOrderConfirmation,
     TypedColumn.OrderConfirmed,
     TypedColumn.TheOrderWasSent,

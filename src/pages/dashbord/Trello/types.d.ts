@@ -3,7 +3,6 @@ interface Board {
 }
 
 export enum TypedColumn {
-  PaymentAndOrderFinalizationStatus = "Payment and order finalization",
   AwaitingOrderConfirmation = "Awaiting order confirmation",
   OrderConfirmed = "Order confirmed",
   TheOrderWasSent = "The order was sent",
