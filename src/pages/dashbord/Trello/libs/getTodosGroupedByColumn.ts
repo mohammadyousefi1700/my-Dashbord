@@ -8,10 +8,8 @@ export const getTodosGroupedByColumn = async () => {
     "65bea7a66c63686afbef"
   );
   const todos = data.documents;
-
   const columns = todos.reduce((acc, todo) => {
     const ordersProductArray = JSON.parse(todo.ordersProduct);
-
     if (!acc.get(todo.status)) {
       acc.set(todo.status, {
         id: todo.status,
@@ -29,6 +27,7 @@ export const getTodosGroupedByColumn = async () => {
         productName: order.productName,
         qty: order.qty,
       })),
+      userIdBuyer: todo.userIdBuyer,
       $id: todo.$id,
       $updatedAt: todo.$updatedAt,
       seller: todo.seller,

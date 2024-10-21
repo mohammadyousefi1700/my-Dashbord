@@ -24,7 +24,6 @@ function Detail() {
     <FetchData request={fetchData} deps={[params.id]}>
       {(data) => {
         const dataJson = data && JSON.parse(data.ordersProduct);
-        console.log("dataJson", dataJson);
         return (
           <div id="scroll" className="h-[calc(100vh - 60px)] ml-7">
             <div className="flex justify-between">

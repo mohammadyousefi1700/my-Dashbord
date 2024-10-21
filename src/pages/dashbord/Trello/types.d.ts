@@ -10,6 +10,7 @@ export enum TypedColumn {
 }
 
 export type Todo = {
+  userIdBuyer: string;
   ordersProduct?: {
     description: string;
     price: string;

@@ -24,10 +24,6 @@ function TodoCard({
   innerRef,
   todo,
 }: Props) {
-  console.log("todocart", todo.ordersProduct);
-  // const dataJson: CartOrder[] = todo && JSON.parse(todo);
-
-  // const todoJsonPars = JSON.parse(todo.ordersProduct);
   return (
     <div
       className="flex flex-col items-center justify-center px-4 py-2 space-y-1 bg-white rounded-md shadow-xl drop-shadow-sm"
@@ -36,7 +32,7 @@ function TodoCard({
       ref={innerRef}
     >
       <UserSvg />
-      <div className="justify-start font-sans text-base flex text-gray-600 flex-col pt-1 pb-1 gap-y-2 w-full max-w-sm ">
+      <div className="flex flex-col justify-start w-full max-w-sm pt-1 pb-1 font-sans text-base text-gray-600 gap-y-2 ">
         <p className="truncate">
           جمع قیمت فروش:{" "}
           <span className="text-gray-900">

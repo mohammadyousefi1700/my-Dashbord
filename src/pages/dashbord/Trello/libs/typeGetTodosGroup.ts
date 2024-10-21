@@ -15,6 +15,7 @@ export type ColumnType = {
 };
 
 export type Todo = {
+  userIdBuyer: string;
   ordersProduct: string[];
   $id: string;
   $updatedAt?: string;
