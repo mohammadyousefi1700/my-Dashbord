@@ -65,8 +65,10 @@ export const useBoardStore = create<BoardState>((set) => ({
           "65bea8862876af4bba92",
           todo.$id,
           {
+            CustomerName: todo.CustomerName,
             ListPurchase: [JSON.stringify(todo.ordersProduct)],
             user_Id: fetchedTodo.userIdBuyer,
+            totalPrice: todo.totalPrice,
           }
         );
         await database.deleteDocument(

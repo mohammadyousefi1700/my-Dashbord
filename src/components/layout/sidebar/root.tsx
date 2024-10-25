@@ -1,4 +1,4 @@
-import { ClipboardList, HomeOutline } from "heroicons-react";
+import { ClipboardList, HomeOutline, ShoppingBag } from "heroicons-react";
 
 type SidebarLinkProps = {
   title: string;
@@ -16,5 +16,10 @@ export const sidebarLink: SidebarLinkProps[] = [
     title: "کوت",
     path: "/Quotes",
     icons: <ClipboardList className="w-5 h-5" />,
+  },
+  {
+    title: "فروش ها",
+    path: "/sales",
+    icons: <ShoppingBag className="w-5 h-5" />,
   },
 ];

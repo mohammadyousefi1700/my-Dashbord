@@ -90,6 +90,8 @@ function Board() {
             ref={provided.innerRef}
           >
             {Array.from(board.columns.entries()).map(([id, column], index) => {
+              console.log("column.todos", column.todos);
+
               return (
                 <Column key={id} id={id} todos={column.todos} index={index} />
               );

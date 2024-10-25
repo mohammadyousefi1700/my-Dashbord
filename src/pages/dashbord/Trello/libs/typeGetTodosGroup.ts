@@ -27,4 +27,5 @@ export type Todo = {
   productName?: string;
   CustomerName?: string;
   images?: string;
+  totalProductId?: string;
 };

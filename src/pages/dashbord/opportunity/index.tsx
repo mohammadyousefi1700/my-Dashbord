@@ -13,7 +13,7 @@ import Mobile from "./component/cmpResolution/cmpMobile/Mobile";
 function Quotes() {
   const initialFilters = {
     productName: "",
-    total: 1,
+    total: 0,
   };
   useDocumentTitle("کوت");
 

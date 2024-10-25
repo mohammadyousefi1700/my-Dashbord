@@ -20,6 +20,7 @@ export type Todo = {
     location?: string;
     saleProvider?: string;
     CustomerName?: string;
+    totalProductId: string;
   }[];
   $id: string;
   customerAddress?: string;
