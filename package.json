@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.0.18",
