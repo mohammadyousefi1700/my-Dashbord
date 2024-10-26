@@ -1,6 +1,12 @@
 import classNames from "classnames";
 import HandleLoading from "components/Loading";
-import React, { ReactNode, useEffect, useMemo, useState } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 type StateType = {
   data?: any;
@@ -41,9 +47,9 @@ function FetchData<T = any>(props: Props<T>) {
   const [data, setData] = useState(defaultValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const abortController = useMemo(() => new AbortController(), []);
+  const abortController = useMemo(() => new AbortController(), deps);
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     setLoading(true);
     setError(null);
 
@@ -62,7 +68,7 @@ function FetchData<T = any>(props: Props<T>) {
           setError(er.toString());
         });
     }
-  };
+  }, [request, abortController, resetDataBeforeFetch, defaultValue]);
 
   const states = {
     data,
@@ -78,15 +84,14 @@ function FetchData<T = any>(props: Props<T>) {
   useEffect(() => {
     fetchData();
     return () => {
-      if (typeof abortController.abort === "function") abortController.abort();
+      abortController.abort();
     };
-  }, [abortController, deps, fetchData]);
+  }, [fetchData]);
 
   // handle error
   if (error && handleError) return <div>Error</div>;
 
   if (handleLoading && loading)
-    // handle loading
     return (
       <div
         className={classNames(
