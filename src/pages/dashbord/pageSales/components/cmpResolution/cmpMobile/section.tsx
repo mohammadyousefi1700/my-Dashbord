@@ -1,11 +1,6 @@
 import { Models } from "appwrite";
-import Image from "components/ImagesComponent/ImageUploader";
 import { ConvertDatePersian } from "Func/DatePer2";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
-import { Pencil, TrashOutline } from "heroicons-react";
-import { PropCreatePosts } from "lib/apiOpportunity";
-import React from "react";
-import { useLoggedInUser } from "utils/AutContext";
 type Props = {
   sectionRefs: React.MutableRefObject<(HTMLElement | HTMLDivElement | null)[]>;
   index: number;
@@ -13,8 +8,6 @@ type Props = {
 };
 
 const Section = ({ items, sectionRefs, index }: Props) => {
-  const { user } = useLoggedInUser();
-
   return (
     <section
       ref={(el) => (sectionRefs.current[index] = el)}

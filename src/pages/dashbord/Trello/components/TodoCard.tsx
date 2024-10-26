@@ -6,7 +6,6 @@ import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { Todo, TypedColumn } from "../types";
 import UserSvg from "./userSvg";
 import { Link } from "react-router-dom";
-import { CartOrder } from "../detail/components/type";
 
 type Props = {
   todo: Todo;

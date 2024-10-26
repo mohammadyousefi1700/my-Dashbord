@@ -41,7 +41,7 @@ function FetchData<T = any>(props: Props<T>) {
   const [data, setData] = useState(defaultValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const abortController = useMemo(() => new AbortController(), [deps]);
+  const abortController = useMemo(() => new AbortController(), []);
 
   const fetchData = () => {
     setLoading(true);
@@ -76,14 +76,11 @@ function FetchData<T = any>(props: Props<T>) {
   };
 
   useEffect(() => {
-    if (deps) {
-      fetchData();
-      return () => {
-        if (typeof abortController.abort === "function")
-          abortController.abort();
-      };
-    }
-  }, deps);
+    fetchData();
+    return () => {
+      if (typeof abortController.abort === "function") abortController.abort();
+    };
+  }, [abortController, deps, fetchData]);
 
   // handle error
   if (error && handleError) return <div>Error</div>;
@@ -129,12 +126,3 @@ function FetchData<T = any>(props: Props<T>) {
 }
 
 export default FetchData;
-
-// // type PropsState<T>={
-// //     data:T
-// // }
-// type PropState<T> = {
-//   data: T;
-//   setData: (payload?: any) => void;
-// };
-// const FetchData = () => {};

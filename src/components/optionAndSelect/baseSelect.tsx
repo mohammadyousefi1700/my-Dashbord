@@ -1,8 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
-// import { ChevronDownIcon } from "@heroicons/react/solid";
 import parseClassNames from "classnames";
 import { FC, ReactNode, useEffect, useState } from "react";
-// import LoadingSpinner from "shared/components/loading/loading-spinner";
 
 import BaseSelectLeadingIcon from "./base-select-leading-icon";
 import BaseSelectTrailingIcon from "./base-select-trailing-icon";
@@ -119,8 +117,7 @@ export default function BaseSelect<T>(props: SelectPropTypes<T>) {
 
   useEffect(() => {
     if (value !== selected) setSelected(value as any);
-  }, [value]);
-
+  }, [value, selected]);
   return (
     <div className={parseClassNames(className || "", "")}>
       <Listbox

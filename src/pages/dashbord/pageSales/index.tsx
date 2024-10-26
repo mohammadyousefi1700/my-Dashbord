@@ -1,5 +1,4 @@
 import FetchData from "components/fetchData";
-import { deletePost, GetPostList, PropCreatePosts } from "lib/apiOpportunity";
 import { useState } from "react";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 import useMediaQuery from "components/useMediaQuery";
@@ -29,9 +28,7 @@ function Quotes() {
         deps={[filters]}
         request={fetchDataSales}
       >
-        {(data, { fetchData }) => {
-          console.log("data", data);
-
+        {(data) => {
           return (
             <>
               {isMobile ? (

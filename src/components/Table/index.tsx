@@ -154,7 +154,7 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
     } else {
       setExpandedIndexes([]);
     }
-  }, [alwaysExpanded, defaultExpandedIndexes]);
+  }, [alwaysExpanded, defaultExpandedIndexes, data, expandedIndexes]);
 
   const renderRow = (item: T, index: number) => {
     const renderPayload = {

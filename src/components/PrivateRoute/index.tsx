@@ -1,4 +1,4 @@
-import { Navigate, Outlet, redirect } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useLoggedInUser } from "../../utils/AutContext";
 
 function PrivateRoute() {

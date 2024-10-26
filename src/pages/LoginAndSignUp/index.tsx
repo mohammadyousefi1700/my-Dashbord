@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { useLoggedInUser } from "../../utils/AutContext";
 import classNames from "classnames";
 import _ from "lodash";
@@ -9,12 +9,6 @@ export interface User {
   email: string;
   password: string;
 }
-
-interface StyleType {
-  isOk?: boolean;
-  isProblem?: boolean;
-}
-const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 function LoginPage() {
   const { setUser, handleSubmit } = useLoggedInUser();

@@ -3,12 +3,8 @@ import Pagination from "components/Pagination";
 import BaseTable, { TableColumnType } from "components/Table";
 import React from "react";
 import "../../../../../../index.css";
-import { Pencil, TrashOutline } from "heroicons-react";
-import { PropCreatePosts } from "lib/apiOpportunity";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
 import { ConvertDatePersian } from "Func/DatePer2";
-import Image from "components/ImagesComponent/ImageUploader";
-import { useLoggedInUser } from "utils/AutContext";
 import { FiltersTypePageSales } from "../../type";
 type Props = {
   data: Models.DocumentList<Models.Document> | null;

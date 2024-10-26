@@ -2,13 +2,11 @@ import Button from "components/Button";
 import FetchData from "components/fetchData";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 import { GetOrderId } from "lib/order";
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomerInformationData from "./components/CustomerInformationData";
 import OrderDataCart from "./components/OrderDataCart";
-import { CartOrder } from "./components/type";
 import { HandleSeparateThreeDigits } from "Func/SeparateThreeDigits";
-import { Printer, PrinterOutline } from "heroicons-react";
+import { PrinterOutline } from "heroicons-react";
 import { ConvertDatePersian } from "Func/DatePer2";
 
 function Detail() {
