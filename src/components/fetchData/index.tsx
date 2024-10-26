@@ -44,10 +44,12 @@ function FetchData<T = any>(props: Props<T>) {
     loadingClassName,
     resetDataBeforeFetch,
   } = props;
+
   const [data, setData] = useState(defaultValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const abortController = useMemo(() => new AbortController(), deps);
+
+  const abortController = useMemo(() => new AbortController(), [...deps]);
 
   const fetchData = useCallback(() => {
     setLoading(true);
@@ -78,7 +80,7 @@ function FetchData<T = any>(props: Props<T>) {
     loading,
     setLoading,
     fetchData,
-    abortController: abortController,
+    abortController,
   };
 
   useEffect(() => {
@@ -86,7 +88,7 @@ function FetchData<T = any>(props: Props<T>) {
     return () => {
       abortController.abort();
     };
-  }, [fetchData]);
+  }, [fetchData, abortController]);
 
   // handle error
   if (error && handleError) return <div>Error</div>;

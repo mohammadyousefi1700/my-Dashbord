@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useLoggedInUser } from "../../utils/AutContext";
 import classNames from "classnames";
 import _ from "lodash";
@@ -22,12 +22,9 @@ function LoginPage() {
   });
   const [isShowSignIn, setIsShowSignIn] = useState<boolean>(false);
 
-  const debouncedHandleInputChange = useCallback(
-    _.debounce((nextValue) => {
-      setCredentials((prevValues) => ({ ...prevValues, ...nextValue }));
-    }, 1000),
-    []
-  );
+  const debouncedHandleInputChange = _.debounce((nextValue: Partial<User>) => {
+    setCredentials((prevValues) => ({ ...prevValues, ...nextValue }));
+  }, 1000);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -36,7 +33,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="justify-center  flex items-center h-screen w-screen opacity-[0.90] bg-no-repeat bg-[length:100%_100%]  bg-[url('/public/MilkyWayGalaxy.jpg')]">
+    <div className="justify-center flex items-center h-screen w-screen opacity-[0.90] bg-no-repeat bg-[length:100%_100%] bg-[url('/public/MilkyWayGalaxy.jpg')]">
       <form
         className="p-3 bg-inherit w-fit rounded-3xl backdrop-brightness-0 opacity-80"
         onSubmit={(e) => {
@@ -52,7 +49,7 @@ function LoginPage() {
             <div className="w-[400px] bg-inherit ">
               <input
                 className={classNames(
-                  "h-12 px-3 text-white rounded-br-lg bg-inherit  outline-none hover:border-b-white hover:border-b-2 hover:border-r-2 align-middle w-96"
+                  "h-12 px-3 text-white rounded-br-lg bg-inherit outline-none hover:border-b-white hover:border-b-2 hover:border-r-2 align-middle w-96"
                 )}
                 type="text"
                 required
@@ -71,7 +68,7 @@ function LoginPage() {
           <div className="w-[400px] bg-inherit ">
             <input
               className={classNames(
-                "h-12 px-3 text-white rounded-br-lg bg-inherit  outline-none hover:border-b-white hover:border-b-2 hover:border-r-2 align-middle w-96"
+                "h-12 px-3 text-white rounded-br-lg bg-inherit outline-none hover:border-b-white hover:border-b-2 hover:border-r-2 align-middle w-96"
               )}
               type="email"
               required
@@ -88,7 +85,7 @@ function LoginPage() {
           </label>
           <input
             className={classNames(
-              "h-12 px-3 rounded-br-lg text-white bg-inherit  outline-none hover:border-b-white hover:border-b-2 hover:border-r-2 align-middle w-96"
+              "h-12 px-3 rounded-br-lg text-white bg-inherit outline-none hover:border-b-white hover:border-b-2 hover:border-r-2 align-middle w-96"
             )}
             type="password"
             required
