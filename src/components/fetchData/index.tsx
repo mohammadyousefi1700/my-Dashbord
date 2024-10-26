@@ -1,12 +1,6 @@
 import classNames from "classnames";
 import HandleLoading from "components/Loading";
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 
 type StateType = {
   data?: any;
@@ -48,15 +42,9 @@ function FetchData<T = any>(props: Props<T>) {
   const [data, setData] = useState(defaultValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const [abortController, setAbortController] = useState(new AbortController());
 
-  // const abortController = useMemo(() => new AbortController(), [...deps]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    setAbortController(controller);
-    return () => controller.abort();
-  }, deps);
   const fetchData = useCallback(() => {
     setLoading(true);
     setError(null);
@@ -90,11 +78,14 @@ function FetchData<T = any>(props: Props<T>) {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    setAbortController(controller);
     fetchData();
+
     return () => {
-      abortController.abort();
+      controller.abort();
     };
-  }, [fetchData, abortController]);
+  }, [fetchData, ...deps]);
 
   // handle error
   if (error && handleError) return <div>Error</div>;
@@ -114,7 +105,6 @@ function FetchData<T = any>(props: Props<T>) {
   if (
     handleEmptyData &&
     !loading &&
-    //@ts-ignore
     (data?.items ? data.items.length === 0 : data?.length === 0)
   )
     return (
