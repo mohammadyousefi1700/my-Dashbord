@@ -48,9 +48,15 @@ function FetchData<T = any>(props: Props<T>) {
   const [data, setData] = useState(defaultValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [abortController, setAbortController] = useState(new AbortController());
 
-  const abortController = useMemo(() => new AbortController(), [...deps]);
+  // const abortController = useMemo(() => new AbortController(), [...deps]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    setAbortController(controller);
+    return () => controller.abort();
+  }, deps);
   const fetchData = useCallback(() => {
     setLoading(true);
     setError(null);
