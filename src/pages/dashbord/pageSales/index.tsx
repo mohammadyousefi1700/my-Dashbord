@@ -24,9 +24,11 @@ function Quotes() {
   return (
     <>
       <FetchData
-        handleEmptyData={false}
-        deps={[filters]}
-        request={fetchDataSales}
+        queryKey={[]}
+        queryFn={fetchDataSales}
+        handleError={true}
+        handleLoading={true}
+        handleEmptyData={true}
       >
         {(data) => {
           return (

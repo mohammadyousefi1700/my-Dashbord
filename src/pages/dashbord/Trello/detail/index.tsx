@@ -13,13 +13,21 @@ function Detail() {
   useDocumentTitle("جزئیات سفارش");
   const params = useParams();
   const navigate = useNavigate();
-  const fetchData = async () => {
+
+  // تابع درخواست دریافت داده‌ها
+  const fetchOrderData = async () => {
     const data = await GetOrderId(params.id as string);
-    return await data;
+    return data;
   };
 
   return (
-    <FetchData request={fetchData} deps={[params.id]}>
+    <FetchData
+      queryKey={["order", params.id]}
+      queryFn={fetchOrderData}
+      handleError={true}
+      handleLoading={true}
+      handleEmptyData={true}
+    >
       {(data) => {
         const dataJson = data && JSON.parse(data.ordersProduct);
         return (
@@ -42,7 +50,7 @@ function Detail() {
 
             <div
               id="scroll"
-              className="w-full py-4 px-2 bg-white gap-y-4 rounded-lg  flex flex-col  border-[2px]  "
+              className="w-full py-4 px-2 bg-white gap-y-4 rounded-lg  flex flex-col  border-[2px]"
             >
               <span className="hidden mx-auto font-sans text-xl print:inline">
                 صورتحساب فروش
@@ -57,7 +65,7 @@ function Detail() {
                   customerAddress={data.customerAddress}
                 />
               )}
-              <span className="text-lg font-bold "> سفارشات :</span>{" "}
+              <span className="text-lg font-bold "> سفارشات :</span>
               {dataJson &&
                 dataJson.map((item: any, index: number) => (
                   <OrderDataCart key={index} {...item} />
