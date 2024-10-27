@@ -1,11 +1,11 @@
 import FetchData from "components/fetchData";
-import { useState } from "react";
-import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
-import useMediaQuery from "components/useMediaQuery";
 import Desktop from "./components/cmpResolution/cmpDesktop/Desktop";
 import Mobile from "./components/cmpResolution/cmpMobile/mobile";
-import { GetSalesList } from "lib/listSales";
+import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
+import useMediaQuery from "components/useMediaQuery";
+import { useMemo, useState } from "react";
 import { FiltersTypePageSales } from "./components/type";
+import { GetSalesList } from "lib/listSales";
 
 function Quotes() {
   const initialFilters = {
@@ -16,40 +16,42 @@ function Quotes() {
 
   const isMobile = useMediaQuery("(min-width: 690px)");
   const [filters, setFilters] = useState<FiltersTypePageSales>(initialFilters);
-  const fetchDataSales = async () => {
-    const data = await GetSalesList(filters);
-    return data;
-  };
+
+  const fetchDataSales = useMemo(() => {
+    return async () => {
+      const data = await GetSalesList(filters);
+      return data;
+    };
+  }, [filters]);
 
   return (
-    <>
-      <FetchData
-        queryKey={[]}
-        queryFn={fetchDataSales}
-        handleError={true}
-        handleLoading={true}
-        handleEmptyData={true}
-      >
-        {(data) => {
-          return (
-            <>
-              {isMobile ? (
-                <>
-                  <Desktop
-                    filters={filters}
-                    setFilters={setFilters}
-                    data={data}
-                  />
-                </>
-              ) : (
-                <Mobile data={data} filters={filters} setFilters={setFilters} />
-              )}
-            </>
-          );
-        }}
-      </FetchData>
-    </>
+    <FetchData
+      queryKey={["sales", filters]} // استفاده از یک کلید ثابت به همراه filters
+      queryFn={fetchDataSales}
+      handleError={true}
+      handleLoading={true}
+      handleEmptyData={true}
+    >
+      {(data) => {
+        return (
+          <>
+            {isMobile ? (
+              <Desktop
+                filters={filters}
+                setFilters={setFilters}
+                data={data as any}
+              />
+            ) : (
+              <Mobile
+                data={data as any}
+                filters={filters}
+                setFilters={setFilters}
+              />
+            )}
+          </>
+        );
+      }}
+    </FetchData>
   );
 }
-
 export default Quotes;

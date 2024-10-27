@@ -2,7 +2,6 @@ import classNames from "classnames";
 import { get, isEqual } from "lodash";
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 import HandleLoading from "components/Loading";
-
 import Th, { SORT_ENUM } from "./Th";
 
 export type RenderPayloadType<T> = {
@@ -10,7 +9,7 @@ export type RenderPayloadType<T> = {
   allRows?: T[];
   currentRowIndex: number;
   expandedRows: number[];
-  expandRow: (payload?: number[]) => void;
+  expandRow: (payload?: number[] | ((prev: number[]) => number[])) => void;
 };
 
 export type OnTableSortChangeType = (
@@ -38,59 +37,26 @@ export type BaseTablePropTypes<T = any> = {
   columns: TableColumnType<T>[];
   notFoundDom?: ReactNode;
   expandOnClickOnRow?: boolean;
-  tableProps?: React.DetailedHTMLProps<
-    React.TableHTMLAttributes<HTMLTableElement>,
-    HTMLTableElement
-  >;
+  tableProps?: React.TableHTMLAttributes<HTMLTableElement>;
   defaultExpandedIndexes?: number[];
-  tableHeaderProps?: React.DetailedHTMLProps<
-    React.ThHTMLAttributes<HTMLTableHeaderCellElement>,
-    HTMLTableHeaderCellElement
-  >;
-
+  tableHeaderProps?: React.ThHTMLAttributes<HTMLTableHeaderCellElement>;
   tableDataProps?:
-    | React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTableRowElement>,
-        HTMLTableRowElement
-      >
+    | React.HTMLAttributes<HTMLTableRowElement>
     | ((
         payload: RenderPayloadType<T>
-      ) => React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTableRowElement>,
-        HTMLTableRowElement
-      >);
-
-  tableFooterProps?: React.DetailedHTMLProps<
-    React.TdHTMLAttributes<HTMLTableDataCellElement>,
-    HTMLTableDataCellElement
-  >;
-
-  tableHeaderRowProps?: React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLTableRowElement>,
-    HTMLTableRowElement
-  >;
+      ) => React.HTMLAttributes<HTMLTableRowElement>);
+  tableFooterProps?: React.TdHTMLAttributes<HTMLTableDataCellElement>;
+  tableHeaderRowProps?: React.HTMLAttributes<HTMLTableRowElement>;
   tableDataRowProps?:
-    | React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTableRowElement>,
-        HTMLTableRowElement
-      >
+    | React.HTMLAttributes<HTMLTableRowElement>
     | ((
         payload: RenderPayloadType<T>
-      ) => React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTableRowElement>,
-        HTMLTableRowElement
-      >);
+      ) => React.HTMLAttributes<HTMLTableRowElement>);
   tableFooterRowProps?:
-    | React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTableRowElement>,
-        HTMLTableRowElement
-      >
+    | React.HTMLAttributes<HTMLTableRowElement>
     | ((
         payload: RenderPayloadType<T>
-      ) => React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTableRowElement>,
-        HTMLTableRowElement
-      >);
+      ) => React.HTMLAttributes<HTMLTableRowElement>);
   renderExpandedRow?: (
     payload: RenderPayloadType<T>,
     renderRow: (rowData: T, index: number) => ReactNode
@@ -129,47 +95,53 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>(
     defaultExpandedIndexes || []
   );
-  const [sortOrder, setSortOrder] = useState({
-    fieldName: "",
-    order: "",
-  });
+  const [sortOrder, setSortOrder] = useState<{
+    fieldName: string;
+    order: SORT_ENUM | "";
+  }>({ fieldName: "", order: "" });
 
   useEffect(() => {
-    if (sortValue) setSortOrder(sortValue);
+    if (sortValue) {
+      setSortOrder(sortValue);
+    }
   }, [sortValue]);
 
-  const toggleExpandedIndex = (index: number) =>
-    setExpandedIndexes((arr) =>
-      arr.includes(index) ? arr.filter((el) => el !== index) : [...arr, index]
+  const toggleExpandedIndex = (index: number) => {
+    setExpandedIndexes((prev) =>
+      prev.includes(index)
+        ? prev.filter((el) => el !== index)
+        : [...prev, index]
     );
+  };
 
   useEffect(() => {
-    if (alwaysExpanded && data?.length) {
-      setExpandedIndexes(data.map((_, index) => index));
-    } else if (
-      defaultExpandedIndexes?.length &&
-      !isEqual(expandedIndexes, defaultExpandedIndexes)
-    ) {
-      setExpandedIndexes(defaultExpandedIndexes);
-    } else {
-      setExpandedIndexes([]);
+    const newIndexes =
+      alwaysExpanded && data?.length
+        ? data.map((_, index) => index)
+        : defaultExpandedIndexes || [];
+    if (!isEqual(expandedIndexes, newIndexes)) {
+      setExpandedIndexes(newIndexes);
     }
-  }, [alwaysExpanded, defaultExpandedIndexes, data, expandedIndexes]);
-
+  }, [alwaysExpanded, defaultExpandedIndexes, data?.length]); // Render each data row
   const renderRow = (item: T, index: number) => {
-    const renderPayload = {
+    const renderPayload: RenderPayloadType<T> = {
       currentRow: item,
       allRows: data,
       currentRowIndex: index,
       expandedRows: expandedIndexes,
-      expandRow: setExpandedIndexes as any,
+      expandRow: (payload?: number[] | ((prev: number[]) => number[])) => {
+        if (typeof payload === "function") {
+          setExpandedIndexes((prev) => payload(prev));
+        } else if (Array.isArray(payload)) {
+          setExpandedIndexes(payload);
+        }
+      },
     };
 
     const rowProps =
       typeof tableDataRowProps === "function"
         ? tableDataRowProps(renderPayload)
         : tableDataRowProps;
-
     const dataProps =
       typeof tableDataProps === "function"
         ? tableDataProps(renderPayload)
@@ -178,87 +150,70 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
     return (
       <Fragment key={`data-row-${index}`}>
         <tr
-          onClick={() => {
-            if (expandOnClickOnRow) {
-              toggleExpandedIndex(index);
-            }
-          }}
+          onClick={() => expandOnClickOnRow && toggleExpandedIndex(index)}
           {...rowProps}
         >
           {columns.map((column) => {
             const objValue = get(item, column.key);
             return (
               <td
-                key={column.key + index}
+                key={`${column.key}-${index}`}
                 className={classNames(
-                  "text-[#5F5F5F] p-4 truncate !overflow-visible",
+                  "text-[#5F5F5F] p-4 truncate",
                   dataProps?.className,
                   column.dataClassName
                 )}
               >
-                {column?.render
-                  ? column?.render(renderPayload)
-                  : objValue || "-"}
+                {column.render ? column.render(renderPayload) : objValue || "-"}
               </td>
             );
           })}
         </tr>
 
-        {expandedIndexes.includes(index) &&
-          (renderExpandedRow
-            ? renderExpandedRow(renderPayload, renderRow)
-            : null)}
+        {expandedIndexes.includes(index) && renderExpandedRow
+          ? renderExpandedRow(renderPayload, renderRow)
+          : null}
       </Fragment>
     );
   };
 
+  // Render footer for each row
   const renderFooter = (item: T, index: number) => {
-    const renderPayload = {
+    const renderPayload: RenderPayloadType<T> = {
       currentRow: item,
       allRows: data,
       currentRowIndex: index,
       expandedRows: expandedIndexes,
-      expandRow: setExpandedIndexes as any,
+      expandRow: (payload?: number[] | ((prev: number[]) => number[])) => {
+        if (typeof payload === "function") {
+          setExpandedIndexes((prev) => payload(prev));
+        } else if (Array.isArray(payload)) {
+          setExpandedIndexes(payload);
+        }
+      },
     };
 
     const rowProps =
-      typeof tableDataRowProps === "function"
-        ? tableDataRowProps(renderPayload)
-        : tableDataRowProps;
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    typeof tableFooterRowProps === "function"
-      ? tableFooterRowProps(renderPayload)
-      : tableFooterRowProps;
-
-    const dataProps =
-      typeof tableDataProps === "function"
-        ? tableDataProps(renderPayload)
-        : tableDataProps;
+      typeof tableFooterRowProps === "function"
+        ? tableFooterRowProps(renderPayload)
+        : tableFooterRowProps;
 
     return (
-      <Fragment key={`data-row-${index}`}>
+      <Fragment key={`footer-row-${index}`}>
         <tr {...rowProps}>
-          {columns.map((column) => {
-            return (
-              <td
-                key={column.key + index}
-                className={classNames(
-                  "text-[#5F5F5F] p-4 truncate !overflow-visible",
-                  dataProps?.className,
-                  tableFooterProps?.className,
-                  column.dataClassName
-                )}
-              >
-                {column?.footer ? column?.footer(renderPayload) : null}
-              </td>
-            );
-          })}
+          {columns.map((column) => (
+            <td
+              key={`${column.key}-${index}-footer`}
+              className={classNames(
+                "text-[#5F5F5F] p-4 truncate",
+                tableFooterProps?.className,
+                column.dataClassName
+              )}
+            >
+              {column.footer ? column.footer(renderPayload) : null}
+            </td>
+          ))}
         </tr>
-
-        {expandedIndexes.includes(index) &&
-          (renderExpandedRow
-            ? renderExpandedRow(renderPayload, renderRow)
-            : null)}
       </Fragment>
     );
   };
@@ -270,7 +225,7 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
         className={classNames("w-full text-right", tableProps?.className)}
       >
         <thead>
-          {columns.length && (
+          {columns.length > 0 && (
             <tr
               {...tableHeaderRowProps}
               className={classNames(
@@ -293,14 +248,18 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
                     sortOrder={
                       col.key === sortOrder.fieldName ? sortOrder.order : ""
                     }
-                    onSortChange={(newOrder: any) => {
+                    onSortChange={(newOrder: SORT_ENUM | "") => {
+                      const validSortOrder: SORT_ENUM | "" =
+                        newOrder === SORT_ENUM.ASC ||
+                        newOrder === SORT_ENUM.DESC
+                          ? newOrder
+                          : "";
                       setSortOrder({
                         fieldName: col.key,
-                        order: newOrder || "",
+                        order: validSortOrder,
                       });
-
                       if (typeof onSortChange === "function") {
-                        onSortChange(col.key, newOrder);
+                        onSortChange(col.key, validSortOrder);
                       }
                     }}
                     hasSort={col.hasSort}
@@ -313,28 +272,28 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
           )}
         </thead>
 
-        {loading ? (
-          <tbody>
+        <tbody>
+          {loading ? (
             <tr>
-              <td colSpan={12} className="py-2 text-center">
+              <td colSpan={columns.length} className="py-2 text-center">
                 <div className="w-full h-[400px] flex items-center justify-center">
                   <HandleLoading />
                 </div>
               </td>
             </tr>
-          </tbody>
-        ) : data?.length ? (
-          <>
-            <tbody>{data.map(renderRow)}</tbody>
-            {hasFooter ? (
-              <tfoot className={tfootClassName}>
-                {renderFooter(data[0], data.length + 1)}
-              </tfoot>
-            ) : null}
-          </>
-        ) : (
-          notFoundDom
-        )}
+          ) : data?.length ? (
+            <>
+              {data.map(renderRow)}
+              {hasFooter && (
+                <tfoot className={tfootClassName}>
+                  {renderFooter(data[0], data.length)}
+                </tfoot>
+              )}
+            </>
+          ) : (
+            notFoundDom
+          )}
+        </tbody>
       </table>
     </div>
   );
@@ -344,8 +303,8 @@ BaseTable.defaultProps = {
   notFoundDom: (
     <tbody>
       <tr>
-        <td colSpan={12} className="py-8 text-center">
-          موردی پیدا نشد
+        <td colSpan={999} className="py-2 text-center text-[#292929]">
+          هیچ موردی برای نمایش وجود ندارد
         </td>
       </tr>
     </tbody>

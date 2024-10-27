@@ -1,6 +1,6 @@
 import FetchData from "components/fetchData";
 import { deletePost, GetPostList, PropCreatePosts } from "lib/apiOpportunity";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { CreateOpportunityModal } from "./component/cmpOpportunity/CreateOpportunityModal";
 import useDocumentTitle from "components/useDocumentTitle/useDocumentTitle";
 import { FiltersOpportunityType } from "./component/type";
@@ -23,10 +23,14 @@ function Quotes() {
   const isMobile = useMediaQuery("(min-width: 690px)");
   const [filters, setFilters] =
     useState<FiltersOpportunityType>(initialFilters);
-  const fetchDataQuotes = async () => {
-    const data = await GetPostList(filters);
-    return data;
-  };
+
+  // استفاده از useMemo برای fetchDataQuotes
+  const fetchDataQuotes = useMemo(() => {
+    return async () => {
+      const data = await GetPostList(filters);
+      return data;
+    };
+  }, [filters]);
 
   return (
     <>
@@ -38,36 +42,36 @@ function Quotes() {
         />
       </div>
       <FetchData
-        handleEmptyData={false}
-        deps={[filters]}
-        request={fetchDataQuotes}
+        queryKey={["quotes", filters]} // استفاده از یک کلید ثابت به همراه filters
+        queryFn={fetchDataQuotes}
+        handleError={true}
+        handleLoading={true}
+        handleEmptyData={true}
       >
-        {(data, { fetchData }) => {
+        {(data, { refetch }) => {
           return (
             <>
               {isMobile ? (
-                <>
-                  <Desktop
-                    filters={filters}
-                    setFilters={setFilters}
-                    data={data}
-                    setIsOpenModal={setIsOpenModal}
-                    setOpenConfirmModal={setOpenConfirmModal}
-                    setUpdateOpp={setUpdateOpp}
-                  />
-                </>
+                <Desktop
+                  filters={filters}
+                  setFilters={setFilters}
+                  data={data as any}
+                  setIsOpenModal={setIsOpenModal}
+                  setOpenConfirmModal={setOpenConfirmModal}
+                  setUpdateOpp={setUpdateOpp}
+                />
               ) : (
                 <Mobile
                   setIsOpenModal={setIsOpenModal}
                   setOpenConfirmModal={setOpenConfirmModal}
                   setUpdateOpp={setUpdateOpp}
-                  data={data}
+                  data={data as any}
                   filters={filters}
                   setFilters={setFilters}
                 />
               )}
               <CreateOpportunityModal
-                fetchData={fetchData}
+                fetchData={refetch}
                 onclose={() => {
                   setIsOpenModal(false);
                   setUpdateOpp(null);
@@ -76,12 +80,12 @@ function Quotes() {
                 dataRowUpdate={stateUpdateOpp}
               />
               <ModalOnConfirm
-                onReloadTable={fetchData as any}
+                onReloadTable={refetch}
                 onClick={() =>
                   deletePost(stateUpdateOpp as any).then((res) => {
                     setOpenConfirmModal(false);
                     if (res) {
-                      return setTimeout(() => fetchData, 1000);
+                      setTimeout(() => refetch(), 1000); // اضافه کردن پرانتز به refetch
                     }
                   })
                 }
