@@ -39,7 +39,7 @@ export const useBoardStore = create<BoardState>((set) => ({
   updateTodoInDB: async (todo, columnId) => {
     try {
       const updatedTodo = await database.updateDocument(
-        "65bea692defb4ac174b5",
+        "671eb933001b19ad2b2b",
         "65bea7a66c63686afbef",
         todo.$id,
         {
@@ -54,14 +54,14 @@ export const useBoardStore = create<BoardState>((set) => ({
       console.log("Document updated successfully:", updatedTodo);
 
       const fetchedTodo = await database.getDocument(
-        "65bea692defb4ac174b5",
+        "671eb933001b19ad2b2b",
         "65bea7a66c63686afbef",
         todo.$id
       );
 
       if (fetchedTodo.status === TypedColumn.OrderCompletions) {
         await database.createDocument(
-          "65bea692defb4ac174b5",
+          "671eb933001b19ad2b2b",
           "65bea8862876af4bba92",
           todo.$id,
           {
@@ -72,7 +72,7 @@ export const useBoardStore = create<BoardState>((set) => ({
           }
         );
         await database.deleteDocument(
-          "65bea692defb4ac174b5",
+          "671eb933001b19ad2b2b",
           "65bea7a66c63686afbef",
           todo.$id
         );

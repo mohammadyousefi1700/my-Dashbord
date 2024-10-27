@@ -4,7 +4,7 @@ import { Board } from "../types";
 
 export const getTodosGroupedByColumn = async () => {
   const data = await database.listDocuments(
-    "65bea692defb4ac174b5",
+    "671eb933001b19ad2b2b",
     "65bea7a66c63686afbef"
   );
   const todos = data.documents;

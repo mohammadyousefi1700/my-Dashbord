@@ -6,7 +6,7 @@ export const GetSalesList = async (Filter: FiltersTypePageSales) => {
   console.log(Filter.total);
 
   const data = database.listDocuments(
-    "65bea692defb4ac174b5",
+    "671eb933001b19ad2b2b",
     "65bea8862876af4bba92",
     [
       Query.orderDesc("$createdAt"),

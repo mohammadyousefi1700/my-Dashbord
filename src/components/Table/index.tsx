@@ -1,6 +1,13 @@
 import classNames from "classnames";
 import { get, isEqual } from "lodash";
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import HandleLoading from "components/Loading";
 import Th, { SORT_ENUM } from "./Th";
 
@@ -106,23 +113,28 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
     }
   }, [sortValue]);
 
-  const toggleExpandedIndex = (index: number) => {
+  const toggleExpandedIndex = useCallback((index: number) => {
     setExpandedIndexes((prev) =>
       prev.includes(index)
         ? prev.filter((el) => el !== index)
         : [...prev, index]
     );
-  };
+  }, []);
+
+  const newIndexes = useMemo(() => {
+    if (alwaysExpanded && data?.length) {
+      return data.map((_, index) => index);
+    }
+    return defaultExpandedIndexes || [];
+  }, [alwaysExpanded, data, defaultExpandedIndexes]);
 
   useEffect(() => {
-    const newIndexes =
-      alwaysExpanded && data?.length
-        ? data.map((_, index) => index)
-        : defaultExpandedIndexes || [];
+    // Only update if newIndexes differ from expandedIndexes
     if (!isEqual(expandedIndexes, newIndexes)) {
       setExpandedIndexes(newIndexes);
     }
-  }, [alwaysExpanded, defaultExpandedIndexes, data?.length]); // Render each data row
+  }, [newIndexes, expandedIndexes]); // Added expandedIndexes as a dependency
+
   const renderRow = (item: T, index: number) => {
     const renderPayload: RenderPayloadType<T> = {
       currentRow: item,
@@ -130,11 +142,14 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
       currentRowIndex: index,
       expandedRows: expandedIndexes,
       expandRow: (payload?: number[] | ((prev: number[]) => number[])) => {
-        if (typeof payload === "function") {
-          setExpandedIndexes((prev) => payload(prev));
-        } else if (Array.isArray(payload)) {
-          setExpandedIndexes(payload);
-        }
+        setExpandedIndexes((prev) => {
+          if (typeof payload === "function") {
+            return payload(prev);
+          } else if (Array.isArray(payload)) {
+            return payload;
+          }
+          return prev;
+        });
       },
     };
 
@@ -169,7 +184,6 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
             );
           })}
         </tr>
-
         {expandedIndexes.includes(index) && renderExpandedRow
           ? renderExpandedRow(renderPayload, renderRow)
           : null}
@@ -177,7 +191,6 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
     );
   };
 
-  // Render footer for each row
   const renderFooter = (item: T, index: number) => {
     const renderPayload: RenderPayloadType<T> = {
       currentRow: item,
@@ -185,22 +198,25 @@ function BaseTable<T = any>(props: BaseTablePropTypes<T>) {
       currentRowIndex: index,
       expandedRows: expandedIndexes,
       expandRow: (payload?: number[] | ((prev: number[]) => number[])) => {
-        if (typeof payload === "function") {
-          setExpandedIndexes((prev) => payload(prev));
-        } else if (Array.isArray(payload)) {
-          setExpandedIndexes(payload);
-        }
+        setExpandedIndexes((prev) => {
+          if (typeof payload === "function") {
+            return payload(prev);
+          } else if (Array.isArray(payload)) {
+            return payload;
+          }
+          return prev;
+        });
       },
     };
 
     const rowProps =
       typeof tableFooterRowProps === "function"
         ? tableFooterRowProps(renderPayload)
-        : tableFooterRowProps;
+        : tableFooterProps;
 
     return (
       <Fragment key={`footer-row-${index}`}>
-        <tr {...rowProps}>
+        <tr {...(rowProps as React.HTMLAttributes<HTMLTableRowElement>)}>
           {columns.map((column) => (
             <td
               key={`${column.key}-${index}-footer`}

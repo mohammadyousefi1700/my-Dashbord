@@ -28,7 +28,7 @@ export type PropCreatePostsFormik = {
 
 export const GetPostList = async (Filter: FiltersOpportunityType) => {
   const data = database.listDocuments(
-    "65bea692defb4ac174b5",
+    "671eb933001b19ad2b2b",
     "65ca909e17dbfeda3482",
     [
       Query.orderDesc("$createdAt"),
@@ -42,7 +42,7 @@ export const GetPostList = async (Filter: FiltersOpportunityType) => {
 };
 export const CreatePost = async (data: PropCreatePosts) => {
   return await database.createDocument(
-    "65bea692defb4ac174b5",
+    "671eb933001b19ad2b2b",
     "65ca909e17dbfeda3482",
     ID.unique(),
     data
@@ -50,7 +50,7 @@ export const CreatePost = async (data: PropCreatePosts) => {
 };
 export const deletePost = async (data: PropCreatePosts) => {
   const Postdata = await database.deleteDocument(
-    "65bea692defb4ac174b5",
+    "671eb933001b19ad2b2b",
     "65ca909e17dbfeda3482",
     data.$id as string
   );
@@ -58,7 +58,7 @@ export const deletePost = async (data: PropCreatePosts) => {
 };
 export const UpdateOpportunity = async (data: PropCreatePosts, id: string) => {
   const UpdateOpp = await database.updateDocument(
-    "65bea692defb4ac174b5",
+    "671eb933001b19ad2b2b",
     "65ca909e17dbfeda3482",
     id,
     {
